@@ -1,11 +1,16 @@
 package com.example.springboot_4_initial.services;
 
+import com.example.springboot_4_initial.dto.admin.UpdateAdminDTO;
 import com.example.springboot_4_initial.dto.auth.CreateSuperAdminDTO;
 import com.example.springboot_4_initial.exceptions.CreatedEntityException;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
+import com.example.springboot_4_initial.exceptions.NotFoundEntity;
+import com.example.springboot_4_initial.exceptions.UpdateException;
+import com.example.springboot_4_initial.exceptions.vancacies.NotFoundEntityException;
 import com.example.springboot_4_initial.models.*;
 import com.example.springboot_4_initial.repositories.*;
 import com.example.springboot_4_initial.services.interfaces.IAdminService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminService implements IAdminService {
@@ -59,7 +65,11 @@ public class AdminService implements IAdminService {
 
     @Override
     public Admin get_admin(Long id_admin) {
-        return null;
+        Optional<Admin> admin_to_show = iAdminRepository.findById(id_admin);
+        if (admin_to_show.isEmpty()) {
+            throw new NotFoundEntityException("El administrador con id " + id_admin + " no existe en la base de datos");
+        }
+        return admin_to_show.get();
     }
 
     @Transactional
@@ -92,6 +102,28 @@ public class AdminService implements IAdminService {
             throw new CreatedEntityException("Ocurrio un error en la creacion del usuario administrador");
         }
         return admin_to_save;
+    }
+
+    @Transactional
+    @Override
+    public Admin update_admin(UpdateAdminDTO updateAdminDTO, Long id_admin) {
+        Optional<User> user_by_mail = iUserRepository.get_user_by_email(updateAdminDTO.getEmail());
+        if (user_by_mail.isPresent() && user_by_mail.get().getId_user() != id_admin) {
+            throw new UpdateException("El email que se quiere guardar ya se encuentra en uso por otro administrador");
+        }
+        Optional<User> user_to_update = iUserRepository.findById(id_admin);
+        if (user_to_update.isEmpty()) {
+            throw new NotFoundEntityException("El administrador con id  " + id_admin + " no existe en la base de datos");
+        }
+        // * Seteo de nuevo email
+        user_to_update.get().setEmail(updateAdminDTO.getEmail());
+        iUserRepository.save(user_to_update.get());
+
+        // * Seteo de informacion de admin
+        Admin admin_to_update = user_to_update.get().getAdmin();
+        BeanUtils.copyProperties(updateAdminDTO, admin_to_update);
+        iAdminRepository.save(admin_to_update);
+        return admin_to_update;
     }
 
     @Override

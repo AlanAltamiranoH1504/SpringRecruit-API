@@ -284,4 +284,14 @@ public class GlobalExceptionHandler {
                         ex.getMessage()
                 ));
     }
+
+    @ExceptionHandler(UpdateException.class)
+    public ResponseEntity<?> handleUpdateException(UpdateException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(iExcepcionService.generateMessageException(
+                        "Ocurrio un error en la actualizacón del registro",
+                        "",
+                        ex.getMessage()
+                ));
+    }
 }
