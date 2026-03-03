@@ -128,7 +128,17 @@ public class AdminService implements IAdminService {
 
     @Override
     public boolean delete_admin(Long id_admin) {
-        return false;
+        Optional<User> user_to_delete = iUserRepository.findById(id_admin);
+        if (user_to_delete.isEmpty()) {
+            throw new NotFoundEntityException("El administrador con id " +  id_admin + " no existe en la base de datos");
+        }
+        // * Update tbl_users
+        user_to_delete.get().setStatus(false);
+        // * Update tbl_admins
+        user_to_delete.get().getAdmin().setStatus(false);
+
+        iUserRepository.save(user_to_delete.get());
+        return true;
     }
 
     @Override

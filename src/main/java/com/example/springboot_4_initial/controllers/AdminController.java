@@ -47,4 +47,14 @@ public class AdminController {
         response.put("message", "Datos actualizados correctamente");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @DeleteMapping("/delete/{id_admin}")
+    public ResponseEntity<?> delete_admin(@PathVariable Long id_admin) {
+        Map<String, Object> response = new HashMap<>();
+        iAdminService.delete_admin(id_admin);
+
+        response.put("status", true);
+        response.put("message", "Administrador deshabilitado correctamente");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }
