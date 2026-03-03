@@ -31,6 +31,9 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Candidate candidate;
 
+    @OneToOne(mappedBy = "user")
+    private Admin admin;
+
     public User() {
     }
 
@@ -109,5 +112,13 @@ public class User {
 
     public void setCandidate(Candidate candidate) {
         this.candidate = candidate;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 }

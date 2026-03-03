@@ -56,8 +56,6 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
                         // ! RUTAS PUBLICAS
-                        .requestMatchers("/users/save").permitAll()
-                        .requestMatchers("/candidate/save").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/vacancy/list").permitAll()
                         .requestMatchers("/vacancy/find/**").permitAll()

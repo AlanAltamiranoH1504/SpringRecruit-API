@@ -1,10 +1,7 @@
 package com.example.springboot_4_initial.controllers;
 
 import com.example.springboot_4_initial.dto.auth.*;
-import com.example.springboot_4_initial.services.interfaces.IAuthService;
-import com.example.springboot_4_initial.services.interfaces.ICandidateService;
-import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
-import com.example.springboot_4_initial.services.interfaces.IUserService;
+import com.example.springboot_4_initial.services.interfaces.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,11 +21,11 @@ public class AuthController {
     @Autowired
     private IAuthService iAuthService;
     @Autowired
-    private IUserService iUserService;
-    @Autowired
     private ICandidateService iCandidateService;
     @Autowired
     private IRecruiterService iRecruiterService;
+    @Autowired
+    private IAdminService iAdminService;
 
     @PostMapping("/save_recruiter")
     public ResponseEntity<?> save_recruiter(@Valid @RequestBody CreateRecluiterDTO createRecluiterDTO) {
@@ -47,6 +44,16 @@ public class AuthController {
 
         res.put("status", true);
         res.put("message", "Cuenta candidato creada correctamente");
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
+
+    @PostMapping("/save_admin")
+    private ResponseEntity<?> save_admin(@Valid @RequestBody CreateSuperAdminDTO createSuperAdminDTO) {
+        Map<String, Object> res = new HashMap<>();
+        iAdminService.save_admin(createSuperAdminDTO);
+        res.put("status", true);
+        res.put("message", "Cuenta adminitradora creada correctamente");
+
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
 
