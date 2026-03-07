@@ -6,8 +6,8 @@ import com.example.springboot_4_initial.dto.ListEntityDTO;
 import com.example.springboot_4_initial.dto.user.RemoveProfileDTO;
 import com.example.springboot_4_initial.dto.user.UpdateUserDTO;
 import com.example.springboot_4_initial.models.Profile;
-import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.security.UserInfoDetails;
+import com.example.springboot_4_initial.services.interfaces.ICryptoService;
 import com.example.springboot_4_initial.services.interfaces.IImageService;
 import com.example.springboot_4_initial.services.interfaces.IProfileService;
 import com.example.springboot_4_initial.services.interfaces.IUserService;
@@ -25,7 +25,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class __UserController {
     @Autowired
     private IUserService iUserService;
     @Autowired
@@ -33,7 +33,7 @@ public class UserController {
     @Autowired
     private IImageService iImageService;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    ICryptoService iCryptoService;
 
     @PostMapping("/save")
     public ResponseEntity<?> save_user(@Valid @RequestBody CreateUserDTO createUserDTO) {
@@ -110,11 +110,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(json);
     }
 
-    @GetMapping("/perfil")
-    public ResponseEntity<?> get_profile(@AuthenticationPrincipal UserInfoDetails user) {
+    @GetMapping("/user_in_session")
+    public ResponseEntity<?> user_in_session(@AuthenticationPrincipal UserInfoDetails user) {
         Map<String, Object> response = new HashMap<>();
         response.put("status", true);
-        response.put("id", user.get_IdUser());
+        response.put("id_user_encrypt", iCryptoService.encrypt(String.valueOf(user.get_IdUser())));
+//        response.put("id_user_decrypt", iCryptoService.decrypt(String.valueOf(id_crypt)));
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

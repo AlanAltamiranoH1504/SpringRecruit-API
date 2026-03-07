@@ -7,8 +7,6 @@ import com.example.springboot_4_initial.models.Category;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.models.Vacancy;
 import com.example.springboot_4_initial.repositories.ICategoryRepository;
-import com.example.springboot_4_initial.security.SecurityUtils;
-import com.example.springboot_4_initial.security.UserInfoDetails;
 import com.example.springboot_4_initial.services.interfaces.ICategoryService;
 import com.example.springboot_4_initial.services.interfaces.IImageService;
 import com.example.springboot_4_initial.services.interfaces.IUserService;
@@ -17,7 +15,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,8 +37,6 @@ public class VacancyController {
     @Autowired
     private IImageService iImageService;
     @Autowired
-    private SecurityUtils securityUtils;
-    @Autowired
     private IUserService iUserService;
 
     @GetMapping("/list")
@@ -56,25 +51,25 @@ public class VacancyController {
         return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.list_vacancies(listVacanciesDTO.getStatus()));
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<?> save_vacancy(@Valid @RequestBody CreateVacancyDTO createVacancyDTO, BindingResult bindingResult) {
-        Map<String, Object> json = new HashMap<>();
-        if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(error -> {
-                json.put(error.getField(), error.getDefaultMessage());
-            });
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
-        }
-//        Category category = iCategoryRepository.getReferenceById(createVacancyDTO.getCategory());
-        Category category = iCategoryService.get_category(createVacancyDTO.getCategory());
-        User user = iUserService.get_user(securityUtils.user_in_sesion().get_IdUser());
-
-        Vacancy vacancy_to_save = new Vacancy(createVacancyDTO.getName(), new Date(), createVacancyDTO.getDescription(), createVacancyDTO.getSalary(), true, null, category, user);
-        Vacancy vacancy_created = iVacancyService.save_vacancy(vacancy_to_save);
-        json.put("status", true);
-        json.put("message", "Vacante agregada correctamente");
-        return ResponseEntity.status(HttpStatus.CREATED).body(json);
-    }
+//    @PostMapping("/save")
+//    public ResponseEntity<?> save_vacancy(@Valid @RequestBody CreateVacancyDTO createVacancyDTO, BindingResult bindingResult) {
+//        Map<String, Object> json = new HashMap<>();
+//        if (bindingResult.hasErrors()) {
+//            bindingResult.getFieldErrors().forEach(error -> {
+//                json.put(error.getField(), error.getDefaultMessage());
+//            });
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
+//        }
+////        Category category = iCategoryRepository.getReferenceById(createVacancyDTO.getCategory());
+//        Category category = iCategoryService.get_category(createVacancyDTO.getCategory());
+//        User user = iUserService.get_user(securityUtils.user_in_sesion().get_IdUser());
+//
+//        Vacancy vacancy_to_save = new Vacancy(createVacancyDTO.getName(), new Date(), createVacancyDTO.getDescription(), createVacancyDTO.getSalary(), true, null, category, user);
+//        Vacancy vacancy_created = iVacancyService.save_vacancy(vacancy_to_save);
+//        json.put("status", true);
+//        json.put("message", "Vacante agregada correctamente");
+//        return ResponseEntity.status(HttpStatus.CREATED).body(json);
+//    }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<?> find_vacancy(@PathVariable Long id) {

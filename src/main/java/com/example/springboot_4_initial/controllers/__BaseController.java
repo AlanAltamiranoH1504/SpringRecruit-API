@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/base")
-public class BaseController {
+public class __BaseController {
 //    @Autowired
 //    IVacacyService iVacacyService;
 //    @Autowired
