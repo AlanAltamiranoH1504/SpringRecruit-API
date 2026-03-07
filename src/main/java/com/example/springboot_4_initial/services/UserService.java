@@ -43,14 +43,9 @@ public class UserService implements IUserService {
     @Override
     public User get_user(Long id) {
         Optional<User> user_to_show = iUserRepository.findById(id);
-//        if (user_to_show.isEmpty()) {
-//            throw new NotFoundEntityException("No se encontro registro de usuario con id " + id + " dentro de la db");
-//        }
-//        if (user_to_show.get().getImg_profile() != null) {
-//            user_to_show.get().setImg_profile(user_to_show.get().getImg_profile().replace("\\", "/"));
-//        } else {
-//            return user_to_show.get();
-//        }
+        if (user_to_show.isEmpty()) {
+            throw new NotFoundEntityException("No se encontro registro de usuario con id " + id + " dentro de la db");
+        }
         return user_to_show.get();
     }
 
@@ -85,9 +80,15 @@ public class UserService implements IUserService {
     @Override
     public boolean delete_user(Long id) {
         User user_to_delete = this.get_user(id);
-//        user_to_delete.setStatus(false);
+        user_to_delete.setStatus(false);
         iUserRepository.save(user_to_delete);
         return true;
+    }
+
+    @Override
+    public void destroy_user(Long id_user) {
+        User user_to_destroy = this.get_user(id_user);
+        iUserRepository.delete(user_to_destroy);
     }
 
     @Override

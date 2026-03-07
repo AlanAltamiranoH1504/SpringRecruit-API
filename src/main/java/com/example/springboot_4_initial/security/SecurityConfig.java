@@ -70,7 +70,8 @@ public class SecurityConfig {
                         .requestMatchers("/vacancy/delete/**").hasAnyRole("RECLURADOR", "ADMINISTRADOR")
                         .requestMatchers("/vacancy/save_img_vacancy/**").hasAnyRole("RECLURADOR", "ADMINISTRADOR")
                         .requestMatchers("/candidate/find_candidate/**").hasAnyRole("RECLURADOR", "ADMINISTRADOR")
-
+                        .requestMatchers("/recruiter/update_recruiter/**").hasAnyRole("RECLUTADOR", "ADMINISTRADOR")
+                        .requestMatchers("/recruiter/show_recruiter").hasAnyRole("RECLUTADOR", "ADMINISTRADOR")
 
                         // ! RUTAS PARA CANDIDATOS AUTENTICADOS
                         .requestMatchers("/users/update_user/**", "/users/update/img_profile/**").hasAnyRole("RECLUTADOR", "CANDIDATO")
@@ -102,7 +103,13 @@ public class SecurityConfig {
 
                                 "/profiles/save",
                                 "/profiles/find/**",
-                                "/profiles/delete/**"
+                                "/profiles/delete/**",
+
+                                "/recruiter/list",
+                                "/recruiter/find_recruiter/**",
+                                "/recruiter/delete_recruiter/**",
+                                "/recruiter/destroy_recruiter/**"
+
                         ).hasRole("ADMINISTRADOR")
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
