@@ -26,6 +26,9 @@ public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserInfoService();
@@ -54,6 +57,9 @@ public class SecurityConfig {
                 .cors(cors -> {
                 })
                 .csrf(csrf -> csrf.disable())
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
                 .authorizeHttpRequests(request -> request
                                 // ! RUTAS PUBLICAS
                                 .requestMatchers(
@@ -122,9 +128,9 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                )
+//                .exceptionHandling(exception -> exception
+//                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+//                )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
