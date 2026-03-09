@@ -74,7 +74,7 @@ public class SecurityConfig {
 
                                 // ! RUTAS PARA RECLUTADORES
                                 .requestMatchers(
-                                        "/vacancy/save",
+                                        "/vacancy/save_vacancy",
                                         "/vacancy/update/**",
                                         "/vacancy/delete/**",
                                         "/vacancy/save_img_vacancy/**",
@@ -82,7 +82,7 @@ public class SecurityConfig {
                                         "/recruiter/update_recruiter/**",
                                         "/recruiter/show_recruiter",
                                         "/candidate/find_candidate/**"
-                                ).hasAnyRole("RECLURADOR", "ADMINISTRADOR")
+                                ).hasAnyRole("RECLUTADOR", "ADMINISTRADOR")
 
                                 // ! RUTAS PARA CANDIDATOS AUTENTICADOS
                                 .requestMatchers("/users/update_user/**", "/users/update/img_profile/**").hasAnyRole("RECLUTADOR", "CANDIDATO")

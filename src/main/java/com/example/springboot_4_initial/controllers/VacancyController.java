@@ -7,10 +7,7 @@ import com.example.springboot_4_initial.models.Category;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.models.Vacancy;
 import com.example.springboot_4_initial.repositories.ICategoryRepository;
-import com.example.springboot_4_initial.services.interfaces.ICategoryService;
-import com.example.springboot_4_initial.services.interfaces.IImageService;
-import com.example.springboot_4_initial.services.interfaces.IUserService;
-import com.example.springboot_4_initial.services.interfaces.IVacancyService;
+import com.example.springboot_4_initial.services.interfaces.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +35,8 @@ public class VacancyController {
     private IImageService iImageService;
     @Autowired
     private IUserService iUserService;
+    @Autowired
+    private IResponseService iResponseService;
 
     @GetMapping("/list")
     public ResponseEntity<?> list_vacancies(@Valid @RequestBody ListVacanciesDTO listVacanciesDTO, BindingResult bindingResult) {
@@ -51,25 +50,11 @@ public class VacancyController {
         return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.list_vacancies(listVacanciesDTO.getStatus()));
     }
 
-//    @PostMapping("/save")
-//    public ResponseEntity<?> save_vacancy(@Valid @RequestBody CreateVacancyDTO createVacancyDTO, BindingResult bindingResult) {
-//        Map<String, Object> json = new HashMap<>();
-//        if (bindingResult.hasErrors()) {
-//            bindingResult.getFieldErrors().forEach(error -> {
-//                json.put(error.getField(), error.getDefaultMessage());
-//            });
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
-//        }
-////        Category category = iCategoryRepository.getReferenceById(createVacancyDTO.getCategory());
-//        Category category = iCategoryService.get_category(createVacancyDTO.getCategory());
-//        User user = iUserService.get_user(securityUtils.user_in_sesion().get_IdUser());
-//
-//        Vacancy vacancy_to_save = new Vacancy(createVacancyDTO.getName(), new Date(), createVacancyDTO.getDescription(), createVacancyDTO.getSalary(), true, null, category, user);
-//        Vacancy vacancy_created = iVacancyService.save_vacancy(vacancy_to_save);
-//        json.put("status", true);
-//        json.put("message", "Vacante agregada correctamente");
-//        return ResponseEntity.status(HttpStatus.CREATED).body(json);
-//    }
+    @PostMapping("/save_vacancy")
+    public ResponseEntity<?> save_vacancy(@Valid @RequestBody CreateVacancyDTO createVacancyDTO) {
+        iVacancyService.save_vacancy(createVacancyDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(iResponseService.generate_response(true, "Vacante guarda correctamente"));
+    }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<?> find_vacancy(@PathVariable Long id) {
@@ -80,22 +65,22 @@ public class VacancyController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update_vacancy(@Valid @RequestBody UpdateVacancyDTO updateVacancyDTO, @PathVariable Long id, BindingResult bindingResult) {
         Map<String, Object> json = new HashMap<>();
-        if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(error -> {
-                json.put(error.getField(), error.getDefaultMessage());
-            });
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
-        }
-        Category category = iCategoryService.get_category(updateVacancyDTO.getCategory());
-        Vacancy vacancy_to_update = iVacancyService.get_vacancy(id);
-        vacancy_to_update.setName(updateVacancyDTO.getName());
-        vacancy_to_update.setDescription(updateVacancyDTO.getDescription());
-        vacancy_to_update.setSalary(updateVacancyDTO.getSalary());
-        vacancy_to_update.setStatus(updateVacancyDTO.getStatus());
-        vacancy_to_update.setCategory(category);
-        iVacancyService.save_vacancy(vacancy_to_update);
-        json.put("status", true);
-        json.put("message", "Vacante actualizada");
+//        if (bindingResult.hasErrors()) {
+//            bindingResult.getFieldErrors().forEach(error -> {
+//                json.put(error.getField(), error.getDefaultMessage());
+//            });
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
+//        }
+//        Category category = iCategoryService.get_category(updateVacancyDTO.getCategory());
+//        Vacancy vacancy_to_update = iVacancyService.get_vacancy(id);
+//        vacancy_to_update.setName(updateVacancyDTO.getName());
+//        vacancy_to_update.setDescription(updateVacancyDTO.getDescription());
+//        vacancy_to_update.setSalary(updateVacancyDTO.getSalary());
+//        vacancy_to_update.setStatus(updateVacancyDTO.getStatus());
+//        vacancy_to_update.setCategory(category);
+//        iVacancyService.save_vacancy(vacancy_to_update);
+//        json.put("status", true);
+//        json.put("message", "Vacante actualizada");
         return ResponseEntity.status(HttpStatus.OK).body(json);
     }
 

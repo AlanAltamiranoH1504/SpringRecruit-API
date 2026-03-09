@@ -1,15 +1,23 @@
 package com.example.springboot_4_initial.services;
 
+import com.example.springboot_4_initial.dto.vancacy.CreateVacancyDTO;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
 import com.example.springboot_4_initial.exceptions.vancacies.ErrorUpdateImgVacancy;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundVacancy;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundVacancys;
+import com.example.springboot_4_initial.models.Recruiter;
+import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.models.Vacancy;
-import com.example.springboot_4_initial.repositories.IVacancyRepository;
+import com.example.springboot_4_initial.repositories.*;
+import com.example.springboot_4_initial.services.interfaces.ICryptoService;
+import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
+import com.example.springboot_4_initial.services.interfaces.IUserService;
 import com.example.springboot_4_initial.services.interfaces.IVacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,6 +26,21 @@ import java.util.Optional;
 public class VacancyService implements IVacancyService {
     @Autowired
     private IVacancyRepository iVacancyRepository;
+    @Autowired
+    private ICryptoService iCryptoService;
+    @Autowired
+    private IUserService iUserService;
+    @Autowired
+    private IContractTypeRepository iContractTypeRepository;
+    @Autowired
+    private IWorkModalityRepository iWorkModalityRepository;
+    @Autowired
+    private IIndustrialSectorRepository iIndustrialSectorRepository;
+    @Autowired
+    private IProgressStatusRepository iProgressStatusRepository;
+    @Autowired
+    private ICategoryRepository iCategoryRepository;
+
 
     @Override
     public List<Vacancy> list_vacancies(boolean status) {
@@ -29,11 +52,31 @@ public class VacancyService implements IVacancyService {
     }
 
     @Override
-    public Vacancy save_vacancy(Vacancy vacancy) {
-        Vacancy vacancy_to_save = iVacancyRepository.save(vacancy);
-        if (vacancy_to_save.getId() == null) {
-            throw new NotFoundVacancy("Ocurrio un error en la creación de la vacante");
-        }
+    public Vacancy save_vacancy(CreateVacancyDTO createVacancyDTO) {
+        // * Search Recruiter
+        User user = iUserService.get_user(iCryptoService.decrypt(createVacancyDTO.getId_user_crypt()));
+        Recruiter recruiter = user.getRecruiter();
+
+        // * Save vacancy
+        Vacancy vacancy_to_save = new Vacancy(
+                createVacancyDTO.getName(),
+                createVacancyDTO.getDescription(),
+                createVacancyDTO.getLocation(),
+                createVacancyDTO.getSalary(),
+                LocalDate.now(),
+                createVacancyDTO.getFinish_date(),
+                createVacancyDTO.getRequirements(),
+                createVacancyDTO.getResponsibilities(),
+                null,
+                true,
+                iContractTypeRepository.getReferenceById(createVacancyDTO.getIdContract_type()),
+                iProgressStatusRepository.getReferenceById(createVacancyDTO.getIdProgressStatus()),
+                iIndustrialSectorRepository.getReferenceById(createVacancyDTO.getIdIndustrialSector()),
+                iWorkModalityRepository.getReferenceById(createVacancyDTO.getIdWorkModality()),
+                iCategoryRepository.getReferenceById(createVacancyDTO.getIdCategory()),
+                recruiter
+        );
+        iVacancyRepository.save(vacancy_to_save);
         return vacancy_to_save;
     }
 
@@ -53,9 +96,9 @@ public class VacancyService implements IVacancyService {
 
     @Override
     public boolean delete_vacancy(Long id) {
-        Vacancy vacancy_to_delete = this.get_vacancy(id);
-        vacancy_to_delete.setStatus(false);
-        this.save_vacancy(vacancy_to_delete);
+//        Vacancy vacancy_to_delete = this.get_vacancy(id);
+//        vacancy_to_delete.setStatus(false);
+//        this.save_vacancy(vacancy_to_delete);
         return true;
     }
 

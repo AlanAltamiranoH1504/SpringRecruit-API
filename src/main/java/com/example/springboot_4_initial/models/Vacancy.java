@@ -4,6 +4,8 @@ package com.example.springboot_4_initial.models;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity()
@@ -18,9 +20,9 @@ public class Vacancy {
     private String name;
     private String description;
     private String location;
-    private double salary;
-    private Date publication_date;
-    private Date finish_date;
+    private BigDecimal salary;
+    private LocalDate publication_date;
+    private LocalDate finish_date;
     private String requirements;
     private String responsibilities;
     private String image;
@@ -59,7 +61,7 @@ public class Vacancy {
     public Vacancy() {
     }
 
-    public Vacancy(String name, String description, String location, double salary, Date publication_date, Date finish_date, String requirements, String responsibilities, String image, boolean status, ContractType contract_type, ProgressStatus progressStatus, IndustrialSector industrialSector, WorkModality workModality, Category category, Recruiter recruiter) {
+    public Vacancy(String name, String description, String location, BigDecimal salary, LocalDate publication_date, LocalDate finish_date, String requirements, String responsibilities, String image, boolean status, ContractType contract_type, ProgressStatus progressStatus, IndustrialSector industrialSector, WorkModality workModality, Category category, Recruiter recruiter) {
         this.name = name;
         this.description = description;
         this.location = location;
@@ -110,27 +112,27 @@ public class Vacancy {
         this.location = location;
     }
 
-    public double getSalary() {
+    public BigDecimal getSalary() {
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
 
-    public Date getPublication_date() {
+    public LocalDate getPublication_date() {
         return publication_date;
     }
 
-    public void setPublication_date(Date publication_date) {
+    public void setPublication_date(LocalDate publication_date) {
         this.publication_date = publication_date;
     }
 
-    public Date getFinish_date() {
+    public LocalDate getFinish_date() {
         return finish_date;
     }
 
-    public void setFinish_date(Date finish_date) {
+    public void setFinish_date(LocalDate finish_date) {
         this.finish_date = finish_date;
     }
 
