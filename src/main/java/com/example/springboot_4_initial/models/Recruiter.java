@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
@@ -26,6 +27,7 @@ public class Recruiter {
 
     // ! Un reclutador puede tener muchas vacantes
     @OneToMany(mappedBy = "recruiter")
+    @JsonIgnore
     private List<Vacancy> vacancies;
 
     public Recruiter() {

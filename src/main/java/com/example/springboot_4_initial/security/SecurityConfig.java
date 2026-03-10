@@ -68,6 +68,8 @@ public class SecurityConfig {
                                         "/vacancy/find/**",
                                         "/vacancy/category/**",
                                         "/vacancy/name/**",
+                                        "/vacancy/search",
+                                        "/vacancy/save_vacancies",
                                         "/category/list",
                                         "/profiles/list"
                                 ).permitAll()

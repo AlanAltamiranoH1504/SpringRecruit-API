@@ -1,10 +1,15 @@
 package com.example.springboot_4_initial.services;
 
 import com.example.springboot_4_initial.dto.vancacy.CreateVacancyDTO;
+import com.example.springboot_4_initial.dto.vancacy.SaveVacanciesDTO;
+import com.example.springboot_4_initial.dto.vancacy.VacancyFilterDTO;
+import com.example.springboot_4_initial.dto.vancacy.VacancySpecifications;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
 import com.example.springboot_4_initial.exceptions.vancacies.ErrorUpdateImgVacancy;
+import com.example.springboot_4_initial.exceptions.vancacies.NotFoundEntityException;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundVacancy;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundVacancys;
+import com.example.springboot_4_initial.models.Category;
 import com.example.springboot_4_initial.models.Recruiter;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.models.Vacancy;
@@ -14,6 +19,7 @@ import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
 import com.example.springboot_4_initial.services.interfaces.IUserService;
 import com.example.springboot_4_initial.services.interfaces.IVacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -115,6 +121,10 @@ public class VacancyService implements IVacancyService {
 
     @Override
     public List<Vacancy> list_vacancies_by_category(Long id_category) {
+        Optional<Category> category = iCategoryRepository.findById(id_category);
+        if (category.isEmpty()) {
+            throw new NotFoundEntityException("La categoria con id " + id_category + " no existe");
+        }
         List<Vacancy> vacacies_by_category = iVacancyRepository.list_vacancies_by_category(id_category);
         if (vacacies_by_category.isEmpty()) {
             throw new ListEmptyException("No existen vacantes registradas en esa categoria");
@@ -129,5 +139,20 @@ public class VacancyService implements IVacancyService {
             throw new ListEmptyException("No existen vacantes registradas con coincidencias de ese nombre");
         }
         return vacancies_by_name;
+    }
+
+    @Override
+    public List<Vacancy> search_vacancies(VacancyFilterDTO vacancyFilterDTO) {
+        Specification<Vacancy> spec = VacancySpecifications.buildQuery(vacancyFilterDTO);
+        return iVacancyRepository.findAll(spec);
+    }
+
+    @Override
+    public boolean save_vacancies(SaveVacanciesDTO saveVacanciesDTO) {
+        List<CreateVacancyDTO> vacanciesDTO = saveVacanciesDTO.getVacancies();
+        for (CreateVacancyDTO vacancy: vacanciesDTO) {
+            this.save_vacancy(vacancy);
+        }
+        return true;
     }
 }

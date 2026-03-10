@@ -1,8 +1,6 @@
 package com.example.springboot_4_initial.controllers;
 
-import com.example.springboot_4_initial.dto.vancacy.CreateVacancyDTO;
-import com.example.springboot_4_initial.dto.vancacy.ListVacanciesDTO;
-import com.example.springboot_4_initial.dto.vancacy.UpdateVacancyDTO;
+import com.example.springboot_4_initial.dto.vancacy.*;
 import com.example.springboot_4_initial.models.Category;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.models.Vacancy;
@@ -39,27 +37,19 @@ public class VacancyController {
     private IResponseService iResponseService;
 
     @GetMapping("/list")
-    public ResponseEntity<?> list_vacancies(@Valid @RequestBody ListVacanciesDTO listVacanciesDTO, BindingResult bindingResult) {
-        Map<String, Object> json = new HashMap<>();
-        if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(error -> {
-                json.put(error.getField(), error.getDefaultMessage());
-            });
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
-        }
+    public ResponseEntity<?> list_vacancies(@Valid @RequestBody ListVacanciesDTO listVacanciesDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.list_vacancies(listVacanciesDTO.getStatus()));
     }
 
     @PostMapping("/save_vacancy")
     public ResponseEntity<?> save_vacancy(@Valid @RequestBody CreateVacancyDTO createVacancyDTO) {
         iVacancyService.save_vacancy(createVacancyDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(iResponseService.generate_response(true, "Vacante guarda correctamente"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(iResponseService.generate_response(true, "Vacante guarda correctamente"));
     }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<?> find_vacancy(@PathVariable Long id) {
-        Vacancy vacancy_to_show = iVacancyService.get_vacancy(id);
-        return ResponseEntity.status(HttpStatus.OK).body(vacancy_to_show);
+        return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.get_vacancy(id));
     }
 
     @PutMapping("/update/{id}")
@@ -95,19 +85,8 @@ public class VacancyController {
 
     @PostMapping("/save_img_vacancy/{id}")
     public ResponseEntity<?> save_img_vacancy(@PathVariable Long id, @RequestParam("img_vacancy") MultipartFile multipartFile) throws IOException {
-        Map<String, Object> json = new HashMap<>();
-        String path_img = "C:/Imagenes_Proyectos/SpringBoot";
-        this.find_vacancy(id);
-
-        String result_save_img = iImageService.save_image(path_img, multipartFile);
-        if (Objects.equals(result_save_img, "")) {
-            json.put("status", false);
-            json.put("message", "Ocurrio un error en el guardado de la imagen");
-        }
-        this.iVacancyService.update_img_vacancy(result_save_img, id);
-        json.put("status", true);
-        json.put("message", "Imagen de vacante actualizada");
-        return ResponseEntity.status(HttpStatus.OK).body(json);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(iResponseService.generate_response(true, "Imagen de vacante guarda correctamente"));
     }
 
     @GetMapping("/category/{id_category}")
@@ -115,8 +94,21 @@ public class VacancyController {
         return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.list_vacancies_by_category(id_category));
     }
 
+    // ! Modificar metodo por request body
     @GetMapping("/name/{name_vacancy}")
     public ResponseEntity<?> list_vacancies_by_name(@PathVariable String name_vacancy) {
         return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.list_vacancies_by_name(name_vacancy));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<?> search_vacacies(@Valid @RequestBody VacancyFilterDTO vacancyFilterDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.search_vacancies(vacancyFilterDTO));
+    }
+
+    @PostMapping("/save_vacancies")
+    public ResponseEntity<?> save_vacancies(@Valid @RequestBody SaveVacanciesDTO saveVacanciesDTO) {
+        iVacancyService.save_vacancies(saveVacanciesDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(iResponseService.generate_response(true, "Vacantes guardadas correctamente"));
     }
 }
