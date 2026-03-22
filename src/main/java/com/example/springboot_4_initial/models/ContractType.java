@@ -1,17 +1,21 @@
 package com.example.springboot_4_initial.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity()
 @Table(name = "tbl_contract_types")
+@JsonPropertyOrder({"id_contract_type", "name_contract_type", "status"})
 public class ContractType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_contract_type;
     private String name_contract_type;
     private boolean status;
+    @JsonIgnore
     @OneToMany(mappedBy = "contract_type")
     private List<Vacancy> vacancies;
 

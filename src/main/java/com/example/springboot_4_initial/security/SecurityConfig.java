@@ -85,7 +85,10 @@ public class SecurityConfig {
                                         "/recruiter/show_recruiter",
                                         "/candidate/find_candidate/**",
                                         "/industrial_sector/list",
-                                        "/industrial_sector/find/**"
+                                        "/industrial_sector/find/**",
+                                        "/contract_type/list",
+                                        "/contract_type/find/**"
+
                                 ).hasAnyRole("RECLUTADOR", "ADMINISTRADOR")
 
                                 // ! RUTAS PARA CANDIDATOS AUTENTICADOS
@@ -130,7 +133,12 @@ public class SecurityConfig {
                                         "/industrial_sector/save",
                                         "/industrial_sector/delete/**",
                                         "/industrial_sector/destroy/**",
-                                        "/industrial_sector/**"
+                                        "/industrial_sector/**",
+
+                                        "/contract_type/save",
+                                        "/contract_type/delete/**",
+                                        "/contract_type/destroy/**",
+                                        "/contract_type/update/**"
                                 ).hasRole("ADMINISTRADOR")
                 )
                 .sessionManagement(sessionManagement -> sessionManagement

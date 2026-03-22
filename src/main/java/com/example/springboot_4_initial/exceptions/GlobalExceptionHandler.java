@@ -6,6 +6,7 @@ import com.example.springboot_4_initial.exceptions.categories.CreatedCategory;
 import com.example.springboot_4_initial.exceptions.categories.NameCategoryError;
 import com.example.springboot_4_initial.exceptions.categories.NotFoundCategories;
 import com.example.springboot_4_initial.exceptions.categories.NotFoundCategory;
+import com.example.springboot_4_initial.exceptions.contractType.NameContractTypeError;
 import com.example.springboot_4_initial.exceptions.industrialSector.NameIndustrialSectorError;
 import com.example.springboot_4_initial.exceptions.users.RemoveProfileException;
 import com.example.springboot_4_initial.exceptions.users.UpdateProfileException;
@@ -298,6 +299,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NameIndustrialSectorError.class)
     public ResponseEntity<?> handleNameIndustrialSectorError(NameIndustrialSectorError ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(iExcepcionService.generateMessageException(
+                        "Ocurrio un error en la actualización",
+                        "",
+                        ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(NameContractTypeError.class)
+    public ResponseEntity<?> handleNameContractTypeError(NameContractTypeError ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(iExcepcionService.generateMessageException(
                         "Ocurrio un error en la actualización",
