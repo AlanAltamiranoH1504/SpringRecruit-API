@@ -6,6 +6,7 @@ import com.example.springboot_4_initial.exceptions.categories.CreatedCategory;
 import com.example.springboot_4_initial.exceptions.categories.NameCategoryError;
 import com.example.springboot_4_initial.exceptions.categories.NotFoundCategories;
 import com.example.springboot_4_initial.exceptions.categories.NotFoundCategory;
+import com.example.springboot_4_initial.exceptions.industrialSector.NameIndustrialSectorError;
 import com.example.springboot_4_initial.exceptions.users.RemoveProfileException;
 import com.example.springboot_4_initial.exceptions.users.UpdateProfileException;
 import com.example.springboot_4_initial.exceptions.vancacies.ErrorUpdateImgVacancy;
@@ -279,7 +280,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleCreatedEntityException(CreatedEntityException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(iExcepcionService.generateMessageException(
-                        "Ocurrio un error en la creacion del usuario",
+                        "Ocurrio un error en la creacion de la entidad",
                         "",
                         ex.getMessage()
                 ));
@@ -290,6 +291,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(iExcepcionService.generateMessageException(
                         "Ocurrio un error en la actualizacón del registro",
+                        "",
+                        ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(NameIndustrialSectorError.class)
+    public ResponseEntity<?> handleNameIndustrialSectorError(NameIndustrialSectorError ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(iExcepcionService.generateMessageException(
+                        "Ocurrio un error en la actualización",
                         "",
                         ex.getMessage()
                 ));
