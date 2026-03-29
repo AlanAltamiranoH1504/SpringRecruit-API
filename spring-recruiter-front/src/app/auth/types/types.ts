@@ -22,6 +22,16 @@ interface FormCreateAccountCandidateDTO {
   roles: number[]
 }
 
+interface FormConfirmAccountCandidateDTO {
+  token_confirm_account: string,
+  randome_number: string
+}
+
+interface FormConfirmAccountRecruiterDTO {
+  token_confirm_account: string,
+  randome_number: string
+}
+
 interface ResponseLogin {
   status: boolean,
   token: string

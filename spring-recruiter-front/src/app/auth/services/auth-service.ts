@@ -19,4 +19,12 @@ export class AuthService {
   public createAccountCandidate(req: FormCreateAccountCandidateDTO) {
     return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/auth/save_candidate`, req);
   }
+
+  public confirmCandidate(req: FormConfirmAccountCandidateDTO) {
+    return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/auth/confirm_candidate`, req);
+  }
+
+  public confirmRecruiter(req: FormConfirmAccountRecruiterDTO) {
+    return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/auth/confirm_account_recluiter`, req);
+  }
 }

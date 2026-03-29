@@ -29,7 +29,7 @@ public class MailService implements IMailService {
     public void send_mail_confirm_account_reclutador(String to, String subject, String name_user, String url, int randome_number) {
         Context context = new Context();
         context.setVariable("user_name", name_user);
-        context.setVariable("url", (url_front + "/" + url));
+        context.setVariable("url", ("http://localhost:4200/confirm/recruiter" + "/" + url));
         context.setVariable("randome_number", randome_number);
 
         String html_content = templateEngine.process("confirm_account_reclutador", context);
@@ -50,7 +50,7 @@ public class MailService implements IMailService {
     public void send_mail_confirm_account_candidate(String to, String subject, String name_candidate, String url, int randome_number) {
         Context context = new Context();
         context.setVariable("name_candidate", name_candidate);
-        context.setVariable("url", (url_front + "/confirm/candidate/" + url));
+        context.setVariable("url", ("http://localhost:4200/confirm/candidate" + "/" + url));
         context.setVariable("randome_number", randome_number);
 
         String html_content = templateEngine.process("confirm_account_candidate", context);
