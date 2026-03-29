@@ -1,8 +1,8 @@
 package com.example.springboot_4_initial.controllers;
 
 import com.example.springboot_4_initial.dto.application.CreateApplicationDTO;
+import com.example.springboot_4_initial.dto.application.UpdateApplicationDTO;
 import com.example.springboot_4_initial.services.interfaces.IApplicationService;
-import com.example.springboot_4_initial.services.interfaces.ICryptoService;
 import com.example.springboot_4_initial.services.interfaces.IResponseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,36 @@ public class ApplicationController {
         iApplicationService.saveApplication(createApplicationDTO, cv);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 iResponseService.generate_response(true, "Aplicación a vacante realizada de manera correcta")
+        );
+    }
+
+    @GetMapping("/find/{idApplication}")
+    public ResponseEntity<?> findApplicationById(@PathVariable Long idApplication) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iApplicationService.findById(idApplication)
+        );
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateApplicationById(@Valid @RequestBody UpdateApplicationDTO updateApplicationDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iApplicationService.updateApplication(updateApplicationDTO)
+        );
+    }
+
+    @DeleteMapping("/delete/{idApplication}")
+    public ResponseEntity<?> deleteApplicationById(@PathVariable Long idApplication) {
+        iApplicationService.deleteApplication(idApplication);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iResponseService.generate_response(true, "Vacante eliminada correctamente")
+        );
+    }
+
+    @DeleteMapping("/destroy/{idApplication}")
+    public ResponseEntity<?> destroyApplicationById(@PathVariable Long idApplication) {
+        iApplicationService.destroyApplication(idApplication);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iResponseService.generate_response(true, "Vacante eliminada correctamente")
         );
     }
 }

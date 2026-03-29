@@ -103,7 +103,11 @@ public class SecurityConfig {
                                         "/candidate/update_img_profile/**",
                                         "/candidate/update_candidate",
                                         "/application/save",
-                                        "/application/list/by_candidate/**"
+                                        "/application/list/by_candidate/**",
+                                        "/application/find/**",
+                                        "/application/update",
+                                        "/application/delete/**",
+                                        "/application/destroy/**"
                                 ).hasAnyRole("CANDIDATO", "RECLUTADOR")
 
                                 // ! RUTAS PARA SUPER ADMIN

@@ -1,6 +1,7 @@
 package com.example.springboot_4_initial.services;
 
 import com.example.springboot_4_initial.services.interfaces.IMailService;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.time.LocalDateTime;
 
 @Service
 public class MailService implements IMailService {
@@ -60,6 +63,48 @@ public class MailService implements IMailService {
             mailSender.send(message);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void sendMailUpdateApplication(String to, String subject, String nameCandidate, String nameVacancy, String status, String lastUpdate) {
+        Context context = new Context();
+        context.setVariable("nameCandidate", nameCandidate);
+        context.setVariable("status", status);
+        context.setVariable("lastUpdate", lastUpdate);
+        context.setVariable("nameVacancy", nameVacancy);
+
+        String htmlContent = templateEngine.process("updateApplication", context);
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendMailDeleteApplication(String to, String subject, String nameCandidate, String nameVacancy, String status, String lastUpdate) {
+        Context context = new Context();
+        context.setVariable("nameCandidate", nameCandidate);
+        context.setVariable("status", status);
+        context.setVariable("lastUpdate", lastUpdate);
+        context.setVariable("nameVacancy", nameVacancy);
+
+        String htmlContent = templateEngine.process("deleteApplication", context);
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

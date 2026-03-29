@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualización de Proceso de Selección</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin:0; padding:0; background-color:#f4f7f6; font-family: 'Segoe UI', Arial, sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f7f6; padding: 40px 20px;">
+    <tr>
+        <td align="center">
+
+            <table width="100%" cellpadding="0" cellspacing="0"
+                   style="max-width:600px; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.05);">
+
+                <tr>
+                    <td style="background: linear-gradient(135deg, #334155, #475569); padding:40px 30px; text-align:center;">
+                        <h1 style="color:#ffffff; margin:0; font-size:24px; letter-spacing: 1px;">
+                            Actualización de Proceso
+                        </h1>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:45px 35px; color:#374151;">
+
+                        <h2 style="margin-top:0; font-size:20px; font-weight:700; color: #111827;">
+                            Hola, <span th:text="${nameCandidate}" style="color:#2563eb;">Candidato</span>
+                        </h2>
+
+                        <p style="font-size:16px; line-height:1.7; color:#4b5563;">
+                            Queremos agradecerte sinceramente por el tiempo y el interés que has dedicado a tu postulación para la vacante de:
+                        </p>
+
+                        <div style="text-align:center; margin: 10px 0 25px 0;">
+                            <h3 style="margin:0; font-size:18px; color:#1e293b; font-weight:600;">
+                                <span th:text="${nameVacancy}">Nombre de la Vacante</span>
+                            </h3>
+                        </div>
+
+                        <p style="font-size:16px; line-height:1.7; color:#4b5563;">
+                            Tras una revisión detallada de tu perfil frente a los requisitos actuales del puesto, te informamos que en esta ocasión hemos decidido avanzar con otros candidatos cuyos perfiles se ajustan más estrechamente a las necesidades técnicas inmediatas del equipo.
+                        </p>
+
+                        <div style="margin:30px 0; text-align:center; background-color:#f9fafb; border-radius:12px; padding:25px; border: 1px solid #e5e7eb;">
+                            <p style="font-size:12px; text-transform:uppercase; letter-spacing:1px; color:#6b7280; margin-bottom:8px;">Estado de la aplicación:</p>
+                            <div style="display:inline-block;
+                                        padding:10px 20px;
+                                        background-color:#f1f5f9;
+                                        border-radius:8px;
+                                        font-size:16px;
+                                        font-weight:700;
+                                        color:#475569;
+                                        text-transform: uppercase;">
+                                <span th:text="${status}">NO SELECCIONADO</span>
+                            </div>
+                            <p style="font-size:12px; color:#9ca3af; margin-top:12px;">
+                                Actualizado el <span th:text="${lastUpdate}"></span>
+                            </p>
+                        </div>
+
+                        <p style="font-size:15px; color:#4b5563; line-height:1.6;">
+                            Valoramos mucho tu talento y mantendremos tu perfil en nuestra base de datos para futuras oportunidades que se alineen con tu experiencia. Te deseamos mucho éxito en tus próximos desafíos profesionales.
+                        </p>
+
+                        <hr style="border:0; border-top:1px solid #f3f4f6; margin:30px 0;">
+
+                        <p style="font-size:13px; color:#9ca3af; line-height:1.5; text-align:center;">
+                            Atentamente,<br>
+                            <strong>Equipo de Talento y Cultura</strong>
+                        </p>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="background-color:#f9fafb; padding:30px; text-align:center;">
+                        <p style="font-size:12px; color:#6b7280; margin:0;">
+                            © 2026 <strong>Talent Acquisition Team</strong><br>
+                            Este es un mensaje automático relacionado con tu postulación.
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+
+            <div style="height:40px;"></div>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

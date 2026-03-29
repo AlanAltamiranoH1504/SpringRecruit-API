@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualización de Candidatura</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin:0; padding:0; background-color:#f4f7f6; font-family: 'Segoe UI', Arial, sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f7f6; padding: 40px 20px;">
+    <tr>
+        <td align="center">
+
+            <table width="100%" cellpadding="0" cellspacing="0"
+                   style="max-width:600px; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.05);">
+
+                <tr>
+                    <td style="background: linear-gradient(135deg, #1e293b, #475569); padding:40px 30px; text-align:center;">
+                        <h1 style="color:#ffffff; margin:0; font-size:24px; letter-spacing: 1px;">
+                            Estado de Postulación
+                        </h1>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:45px 35px; color:#374151;">
+
+                        <h2 style="margin-top:0; font-size:22px; font-weight:700; color: #111827;">
+                            Hola, <span th:text="${nameCandidate}" style="color:#2563eb;">Candidato</span> 👋
+                        </h2>
+
+                        <p style="font-size:16px; line-height:1.7; color:#4b5563;">
+                            Te informamos que ha habido un movimiento en tu proceso de selección para la vacante de:
+                        </p>
+
+                        <div style="text-align:center; margin: 10px 0 25px 0;">
+                            <h3 style="margin:0; font-size:18px; color:#1e293b; font-weight:600;">
+                                📂 <span th:text="${nameVacancy}">Nombre de la Vacante</span>
+                            </h3>
+                        </div>
+
+                        <div style="margin:25px 0; text-align:center; background-color:#f8fafc; border-radius:12px; padding:30px; border: 1px solid #e2e8f0;">
+                            <p style="font-size:13px; text-transform:uppercase; letter-spacing:2px; color:#64748b; margin-bottom:12px;">Nuevo Estado:</p>
+
+                            <div style="display:inline-block;
+                                        padding:12px 25px;
+                                        background-color:#dcfce7;
+                                        border-radius:30px;
+                                        font-size:20px;
+                                        font-weight:700;
+                                        color:#166534;
+                                        text-transform: uppercase;">
+                                <span th:text="${status}">ACTUALIZADO</span>
+                            </div>
+
+                            <p style="font-size:13px; color:#94a3b8; margin-top:15px;">
+                                Última actualización: <strong th:text="${lastUpdate}"></strong>
+                            </p>
+                        </div>
+
+                        <p style="font-size:15px; color:#4b5563; text-align:center;">
+                            Puedes ver más detalles sobre este cambio en nuestro portal de reclutamiento.
+                        </p>
+
+                        <hr style="border:0; border-top:1px solid #f3f4f6; margin:30px 0;">
+
+                        <p style="font-size:13px; color:#9ca3af; line-height:1.5; text-align:center;">
+                            Si tienes alguna duda sobre este cambio, no dudes en contactar con nuestro equipo de talento respondiendo a este correo.
+                        </p>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="background-color:#f9fafb; padding:30px; text-align:center;">
+                        <p style="font-size:12px; color:#6b7280; margin:0;">
+                            © <span th:text="${anio}">2026</span> <strong>Talent Acquisition Team</strong><br>
+                            Este es un mensaje automático, por favor no lo respondas directamente.
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+
+            <div style="height:40px;"></div>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

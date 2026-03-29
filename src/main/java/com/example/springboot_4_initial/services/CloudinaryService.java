@@ -46,14 +46,11 @@ public class CloudinaryService implements ICloudinaryService {
         }
         // ! Validacion de mimes
         boolean resultMimesValidation = this.validateMimes(file, new String[]{"application/pdf"});
-//        File uploadFile = File.createTempFile("temp", file.getOriginalFilename());
-//        file.transferTo(uploadFile);
 
         Map result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap(
-                "resource_type", "auto",
                 "folder", "cvs",
-                "public_id", "cv_" + UUID.randomUUID(),
-                "type", "upload",
+                "public_id", "cv_" + UUID.randomUUID().toString(),
+                "resource_type", "raw",
                 "access_mode", "public"
         ));
         return result;
