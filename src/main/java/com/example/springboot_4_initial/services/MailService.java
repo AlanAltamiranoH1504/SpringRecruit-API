@@ -107,4 +107,42 @@ public class MailService implements IMailService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void sendMailResetPasswordCandidate(String to, String subject, String token, String randomNumber) {
+        Context context = new Context();
+        context.setVariable("token", token);
+        context.setVariable("randomNumber", randomNumber);
+
+        String htmlContent = templateEngine.process("forgetPasswordCandidate", context);
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendMailResetPasswordRecruiter(String to, String subject, String token, String randomNumber) {
+        Context context = new Context();
+        context.setVariable("token", token);
+        context.setVariable("randomNumber", randomNumber);
+
+        String htmlContent = templateEngine.process("forgetPasswordRecruiter", context);
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

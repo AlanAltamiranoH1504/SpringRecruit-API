@@ -93,4 +93,20 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(iResponseService.generate_response(true, String.valueOf(iCryptoService.decrypt(id_crytp))));
     }
+
+    @PostMapping("/forget_password")
+    public ResponseEntity<?> forgetPassword(@Valid @RequestBody ForgetPasswordDTO forgetPasswordDTO) {
+        iAuthService.forgetPassword(forgetPasswordDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iResponseService.generate_response(true, "Email de recuperación de contraseña enviado")
+        );
+    }
+
+    @PostMapping("/save_new_password")
+    public ResponseEntity<?> saveNewPassword(@Valid @RequestBody SaveNewPasswordDTO saveNewPasswordDTO) {
+        iAuthService.saveNewPassword(saveNewPasswordDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iResponseService.generate_response(true, "Contraseña actualizada correctamente")
+        );
+    }
 }

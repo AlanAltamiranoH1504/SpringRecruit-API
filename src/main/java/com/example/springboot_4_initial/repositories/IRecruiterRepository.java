@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IRecruiterRepository extends JpaRepository<Recruiter, Long> {
     @Query("SELECT r FROM Recruiter r WHERE r.username = :username")
@@ -16,4 +17,7 @@ public interface IRecruiterRepository extends JpaRepository<Recruiter, Long> {
 
     @Query("SELECT r FROM Recruiter r WHERE r.status = :status")
     public abstract List<Recruiter> list_recruiters(@Param("status") boolean status);
+
+    @Query("SELECT r FROM Recruiter r WHERE r.token_reset_password = :token AND r.randome_number = :random")
+    public abstract Optional<Recruiter> recruiterToResetPassword(@Param("token") String token, @Param("random") String random);
 }
