@@ -21,6 +21,12 @@ export class FormValidatorService {
           return `El campo deben tener minimo ${errors['minlength'].requiredLength} caracteres`;
         case "min":
           return `El valor minimo del campo debe ser ${errors["min"].min}`;
+        case "email":
+          return "El campo no tiene el formato correcto de un email";
+        case "maxlength":
+          return `El campo deben tener máximo ${errors['maxlength'].requiredLength} caracteres`;
+        case "pattern":
+          return "El número de teléfono debe contener exactamente 10 dígitos numéricos";
       }
     }
     return null;
