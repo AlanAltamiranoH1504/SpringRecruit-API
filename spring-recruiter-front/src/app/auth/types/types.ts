@@ -32,6 +32,16 @@ interface FormConfirmAccountRecruiterDTO {
   randome_number: string
 }
 
+interface FormForgetPasswordDTO {
+  email: string
+}
+
+interface FormSaveNewPasswordDTO {
+  token: string,
+  "randomNumber": string,
+  newPassword: string,
+}
+
 interface ResponseLogin {
   status: boolean,
   token: string

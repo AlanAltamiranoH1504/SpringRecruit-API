@@ -4,6 +4,8 @@ import {RegisterCandidatePage} from './auth/pages/register-candidate-page/regist
 import {RegisterRecruiterPage} from './auth/pages/register-recruiter-page/register-recruiter-page';
 import {ConfirmAccountCandidatePage} from './auth/pages/confirm-account-candidate-page/confirm-account-candidate-page';
 import {ConfirmAccountRecruiterPage} from './auth/pages/confirm-account-recruiter-page/confirm-account-recruiter-page';
+import {ForgetPasswordPage} from './auth/pages/forget-password-page/forget-password-page';
+import {SaveNewPasswordPage} from './auth/pages/save-new-password-page/save-new-password-page';
 
 export const routes: Routes = [
   {path: "", component: LoginPage},
@@ -17,6 +19,12 @@ export const routes: Routes = [
     path: "confirm", children: [
       {path: "candidate/:token", component: ConfirmAccountCandidatePage},
       {path: "recruiter/:token", component: ConfirmAccountRecruiterPage}
+    ]
+  },
+  {
+    path: "forget-password", children: [
+      {path: "", component: ForgetPasswordPage},
+      {path: ":token", component: SaveNewPasswordPage}
     ]
   },
   {path: "**", redirectTo: ""}

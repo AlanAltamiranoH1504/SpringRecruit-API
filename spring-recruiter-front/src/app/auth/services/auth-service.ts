@@ -27,4 +27,12 @@ export class AuthService {
   public confirmRecruiter(req: FormConfirmAccountRecruiterDTO) {
     return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/auth/confirm_account_recluiter`, req);
   }
+
+  public forgetPassword(req: FormForgetPasswordDTO) {
+    return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/auth/forget_password`, req);
+  }
+
+  public saveNewPassword(req: FormSaveNewPasswordDTO) {
+    return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/auth/save_new_password`, req);
+  }
 }
