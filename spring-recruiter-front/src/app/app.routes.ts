@@ -7,12 +7,14 @@ import {ConfirmAccountRecruiterPage} from './auth/pages/confirm-account-recruite
 import {ForgetPasswordPage} from './auth/pages/forget-password-page/forget-password-page';
 import {SaveNewPasswordPage} from './auth/pages/save-new-password-page/save-new-password-page';
 import {HomePage} from './home/pages/home-page/home-page';
+import {HomeCandidatesPage} from './home-candidates/pages/home-candidates-page/home-candidates-page';
 
 export const routes: Routes = [
   {path: "login", component: LoginPage},
   {
     path: "home", children: [
-      {path: "recruiter", component: HomePage}
+      {path: "recruiter", component: HomePage},
+      {path: "candidate", component: HomeCandidatesPage}
     ]
   },
   {
@@ -33,5 +35,5 @@ export const routes: Routes = [
       {path: ":token", component: SaveNewPasswordPage}
     ]
   },
-  {path: "**", redirectTo: "/home/recruiter"}
+  {path: "**", redirectTo: "/home/candidate"}
 ];

@@ -3,19 +3,19 @@ import {Router} from '@angular/router';
 import {isLogin} from '../../../utils/is-login.utils';
 
 @Component({
-  selector: 'app-hero-component',
+  selector: 'app-hero-c-component',
   imports: [],
-  templateUrl: './hero-component.html',
-  styleUrl: './hero-component.css',
+  templateUrl: './hero-c-component.html',
+  styleUrl: './hero-c-component.css',
 })
-export class HeroComponent {
+export class HeroCComponent {
   constructor(private router: Router) {
   }
 
   protected onClick() {
-    const resultLogin = isLogin();
+    const resultIsLogin = isLogin();
     if (isLogin()) {
-      console.log("Esta autenticado como reclutador");
+      console.log("Se dirige a parte autenticada de candidatos");
       return;
     }
     this.router.navigate(["/login"]);

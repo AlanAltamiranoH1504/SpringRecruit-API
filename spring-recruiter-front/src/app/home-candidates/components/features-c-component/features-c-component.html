@@ -1,0 +1,30 @@
+<section class="py-24 px-4 md:px-6 bg-white">
+  <div class="container mx-auto">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Impulsa tu éxito profesional</h2>
+      <p class="text-xl text-gray-600">
+        Todo lo que necesitas para encontrar tu próximo gran reto laboral de manera sencilla y rápida.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for (feat of featuresArray; track feat.title) {
+        <div class="group border border-gray-200 hover:border-blue-500 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 rounded-2xl bg-white overflow-hidden">
+          <div class="p-8">
+            <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6 border border-blue-100 bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+              <div class="w-7 h-7" [innerHTML]="getSafeIcon(feat.icon)"></div>
+            </div>
+
+            <h3 class="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-700 transition-colors">
+              {{feat.title}}
+            </h3>
+
+            <p class="text-gray-600 leading-relaxed">
+              {{feat.description}}
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
