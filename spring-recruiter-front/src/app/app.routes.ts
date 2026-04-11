@@ -6,9 +6,15 @@ import {ConfirmAccountCandidatePage} from './auth/pages/confirm-account-candidat
 import {ConfirmAccountRecruiterPage} from './auth/pages/confirm-account-recruiter-page/confirm-account-recruiter-page';
 import {ForgetPasswordPage} from './auth/pages/forget-password-page/forget-password-page';
 import {SaveNewPasswordPage} from './auth/pages/save-new-password-page/save-new-password-page';
+import {HomePage} from './home/pages/home-page/home-page';
 
 export const routes: Routes = [
-  {path: "", component: LoginPage},
+  {path: "login", component: LoginPage},
+  {
+    path: "home", children: [
+      {path: "recruiter", component: HomePage}
+    ]
+  },
   {
     path: "register", children: [
       {path: "candidate", component: RegisterCandidatePage},
@@ -27,5 +33,5 @@ export const routes: Routes = [
       {path: ":token", component: SaveNewPasswordPage}
     ]
   },
-  {path: "**", redirectTo: ""}
+  {path: "**", redirectTo: "/home/recruiter"}
 ];
