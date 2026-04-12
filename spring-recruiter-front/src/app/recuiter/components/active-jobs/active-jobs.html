@@ -1,0 +1,101 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <h2 class="text-2xl font-semibold text-gray-900">
+      Trabajos Activos
+    </h2>
+    <button class="text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors">
+      Ver todos
+    </button>
+  </div>
+
+  <div class="space-y-4 border p-4 border-gray-400 bg-white rounded-lg">
+    @for (aj of activeJobs(); track aj.id) {
+      <div class="w-full rounded-xl border border-gray-400 bg-white p-5 shadow-sm hover:bg-gray-50 transition">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <h3 class="font-semibold text-gray-900">
+              {{ aj.title }}
+            </h3>
+            <span class="text-xs font-medium bg-green-100 text-green-700 px-2 py-1 rounded-md">
+              Activo
+            </span>
+          </div>
+        </div>
+        <div class="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-600">
+          <div class="flex gap-4">
+            <span class="h-4 w-4"><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-map-pin">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            </span>
+            <span>{{ aj.location }}</span>
+          </div>
+
+          <span>•</span>
+          <span>{{ aj.type }}</span>
+          <span>•</span>
+          <span>Hace {{ aj.postedDays }} días</span>
+        </div>
+
+        <div class="mt-4 flex items-center gap-6 text-sm">
+          <div class="flex items-center gap-1 text-gray-600">
+            <div class="flex gap-4">
+              <span class="h-4 w-4"><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-users">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              </span>
+              <span class="font-medium text-gray-900">
+                {{ aj.applicants }} aplicaciones
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1 text-gray-600">
+            <div class="flex gap-4">
+              <span class="w-4 h-4"><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-eye">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              </span>
+                <span class="font-medium text-gray-900">
+                {{ aj.views }} vistas
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

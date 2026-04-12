@@ -1,0 +1,19 @@
+<div>
+  <h2 class="text-2xl font-semibold mb-5">Acciones Rápidas</h2>
+  <div class="space-y-6 border p-4 border-gray-400 rounded-lg bg-white">
+    @for (action of quickActions(); track action.title) {
+      <button class="w-full bg-white h-auto border border-gray-400 cursor-pointer rounded-lg justify-start p-4 hover:bg-gray-50">
+        <div class="flex items-start gap-3 text-left">
+          <div [class]="action.bgColor" class="rounded-lg p-2 shrink-0">
+            <span class="h-5 w-5" [class]="action.color"
+                  [innerHTML]="sanitize.bypassSecurityTrustHtml(action.icon)"></span>
+          </div>
+          <div class="flex-1">
+            <p class="font-medium text-gray-900">{{ action.title }}</p>
+            <p class="text-sm text-gray-600 mt-1">{{ action.description }}</p>
+          </div>
+        </div>
+      </button>
+    }
+  </div>
+</div>

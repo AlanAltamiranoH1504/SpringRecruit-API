@@ -1,3 +1,13 @@
 <div class="min-h-screen bg-gray-50">
-  <app-dashboard-sidebar-recruiter/>
+  <app-dashboard-sidebar-recruiter class="hidden lg:block"/>
+  <div class="lg:pl-64 w-full">
+    <app-dashboard-header-recruiter/>
+    <main class="py-8">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold text-gray-900"> Bienvenido de vuelta, Alan</h1>
+        <p class="mt-2 text-gray-600">Aquí está un resumen de tu actidad de reclutamiento</p>
+      </div>
+      <router-outlet/>
+    </main>
+  </div>
 </div>

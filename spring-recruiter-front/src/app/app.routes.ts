@@ -11,6 +11,16 @@ import {HomeCandidatesPage} from './home-candidates/pages/home-candidates-page/h
 import {RecruiterDashboardPage} from './recuiter/pages/recruiter-dashboard-page/recruiter-dashboard-page';
 import {authGuard} from './guardians/auth-guard';
 import {recruiterGuardGuard} from './guardians/recruiter-guard-guard';
+import {RecruitersDashboardWorks} from './recuiter/pages/recruiters-dashboard-works/recruiters-dashboard-works';
+import {
+  RecruitersDashboardCandidates
+} from './recuiter/pages/recruiters-dashboard-candidates/recruiters-dashboard-candidates';
+import {
+  RecruitersDashboardApplications
+} from './recuiter/pages/recruiters-dashboard-applications/recruiters-dashboard-applications';
+import {RecruitersDashboardReports} from './recuiter/pages/recruiters-dashboard-reports/recruiters-dashboard-reports';
+import {RecruitersDashboardHelp} from './recuiter/pages/recruiters-dashboard-help/recruiters-dashboard-help';
+import {RecruitersDashboardSumary} from './recuiter/pages/recruiters-dashboard-sumary/recruiters-dashboard-sumary';
 
 export const routes: Routes = [
   {path: "login", component: LoginPage},
@@ -22,7 +32,19 @@ export const routes: Routes = [
   },
   {
     path: "dashboard", canActivate: [authGuard], children: [ // * Validacion de guardian de login
-      {path: "recruiter", component: RecruiterDashboardPage, canActivate: [recruiterGuardGuard]} // * Validacion de guardian para usuarios reclutadores
+      {
+        path: "recruiter",
+        canActivate: [recruiterGuardGuard], // * Validacion de guardian para usuarios reclutadores
+        component: RecruiterDashboardPage,
+        children: [
+          {path: "", component: RecruitersDashboardSumary},
+          {path: "work", component: RecruitersDashboardWorks},
+          {path: "candidates", component: RecruitersDashboardCandidates},
+          {path: "applications", component: RecruitersDashboardApplications},
+          {path: "reports", component: RecruitersDashboardReports},
+          {path: "help", component: RecruitersDashboardHelp}
+        ]
+      }
     ]
   },
   {
