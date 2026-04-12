@@ -45,6 +45,7 @@ interface FormSaveNewPasswordDTO {
 interface ResponseLogin {
   status: boolean,
   token: string
+  isRecruiter: boolean
 }
 
 interface GeneralResponseAPI {

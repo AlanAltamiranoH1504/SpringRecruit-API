@@ -42,6 +42,10 @@ public class User {
     public User() {
     }
 
+    public User(String email) {
+        this.email = email;
+    }
+
     public User(String email, String password, boolean status) {
         this.email = email;
         this.password = password;

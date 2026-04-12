@@ -1,6 +1,8 @@
 package com.example.springboot_4_initial.controllers;
 
 import com.example.springboot_4_initial.dto.auth.*;
+import com.example.springboot_4_initial.repositories.IUserRepository;
+import com.example.springboot_4_initial.security.JwtService;
 import com.example.springboot_4_initial.services.interfaces.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,10 @@ public class AuthController {
     private IResponseService iResponseService;
     @Autowired
     private ICryptoService iCryptoService;
+    @Autowired
+    private IUserRepository iUserRepository;
+    @Autowired
+    private JwtService jwtService;
 
     @PostMapping("/save_recruiter")
     public ResponseEntity<?> save_recruiter(@Valid @RequestBody CreateRecluiterDTO createRecluiterDTO) {
@@ -62,7 +68,8 @@ public class AuthController {
     public ResponseEntity<?> login_user(@Valid @RequestBody LoginDTO loginDTO) {
         Map<String, Object> response = new HashMap<>();
         response.put("status", true);
-        response.put("token", iAuthService.login_user(loginDTO.getEmail(), loginDTO.getPassword()));
+        response.put("token", iAuthService.login_user(loginDTO.getEmail(), loginDTO.getPassword()).getToken());
+        response.put("isRecruiter", iAuthService.login_user(loginDTO.getEmail(), loginDTO.getPassword()).isAdmin());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -107,6 +114,25 @@ public class AuthController {
         iAuthService.saveNewPassword(saveNewPasswordDTO);
         return ResponseEntity.status(HttpStatus.OK).body(
                 iResponseService.generate_response(true, "Contraseña actualizada correctamente")
+        );
+    }
+
+    @PostMapping("/token_valid")
+    public ResponseEntity<?> isTokenJWTValid(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO) {
+        iAuthService.isJwtValid(isJwtValidDTO.getToken());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iResponseService.generate_response(true, "Token jwt valido")
+        );
+    }
+
+    @PostMapping("/is_recruiter")
+    public ResponseEntity<?> isRecruiter(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iResponseService.generate_response(iAuthService.isRecruiter(
+                        iUserRepository.getReferenceById(
+                                jwtService.extract_id_user(isJwtValidDTO.getToken())
+                        )
+                ), "Resultado")
         );
     }
 }

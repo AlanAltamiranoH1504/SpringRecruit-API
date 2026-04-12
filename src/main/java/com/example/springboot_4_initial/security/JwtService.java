@@ -72,7 +72,7 @@ public class JwtService {
     }
 
     // Obtencion del idUser del token
-    protected Long extract_id_user(String token) {
+    public Long extract_id_user(String token) {
         return Long.valueOf(extract_claim(token, Claims::getId));
     }
 

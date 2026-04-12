@@ -35,4 +35,8 @@ export class AuthService {
   public saveNewPassword(req: FormSaveNewPasswordDTO) {
     return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/auth/save_new_password`, req);
   }
+
+  public isRecruiter(jwt: string) {
+    return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/auth/is_recruiter`, {token: jwt});
+  }
 }

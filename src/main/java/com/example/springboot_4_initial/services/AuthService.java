@@ -1,12 +1,10 @@
 package com.example.springboot_4_initial.services;
 
-import com.example.springboot_4_initial.dto.auth.CreateCandidateDTO;
-import com.example.springboot_4_initial.dto.auth.CreateRecluiterDTO;
-import com.example.springboot_4_initial.dto.auth.ForgetPasswordDTO;
-import com.example.springboot_4_initial.dto.auth.SaveNewPasswordDTO;
+import com.example.springboot_4_initial.dto.auth.*;
 import com.example.springboot_4_initial.exceptions.CreatedEntityException;
 import com.example.springboot_4_initial.exceptions.auth.NotCofirmAccountException;
 import com.example.springboot_4_initial.exceptions.auth.PasswordIncorrectException;
+import com.example.springboot_4_initial.exceptions.auth.TokenJwtInvalid;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundEntityException;
 import com.example.springboot_4_initial.models.Candidate;
 import com.example.springboot_4_initial.models.Profile;
@@ -22,7 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthService implements IAuthService {
@@ -179,7 +180,7 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public String login_user(String email, String password) {
+    public ResponseLoginDTO login_user(String email, String password) {
         // * Search tbl_user
         Optional<User> user_by_email = iUserService.get_user_by_email(email);
         if (user_by_email.isEmpty()) {
@@ -214,8 +215,30 @@ public class AuthService implements IAuthService {
             }
         }
         if (passwordEncoder.matches(password, user_by_email.get().getPassword())) {
-            return jwtService.generateTokenJWT(user_by_email.get());
+            ResponseLoginDTO responseLoginDTO = new ResponseLoginDTO(jwtService.generateTokenJWT(user_by_email.get()), this.isRecruiter(user_by_email.get()));
+//            return jwtService.generateTokenJWT(user_by_email.get());
+            return responseLoginDTO;
         }
         throw new PasswordIncorrectException("El password es incorrecto");
+    }
+
+    @Override
+    public boolean isRecruiter(User user) {
+        if (user.getProfiles().isEmpty()) {
+            return false;
+        }
+
+        return user.getProfiles()
+                .stream()
+                .anyMatch(p -> Long.valueOf(2).equals(p.getId()));
+    }
+
+    @Override
+    public boolean isJwtValid(String jwt) {
+        Long idUser = jwtService.extract_id_user(jwt);
+        if (jwtService.is_token_valid(jwt, iUserRepository.getReferenceById(idUser))) {
+            return true;
+        }
+        throw new TokenJwtInvalid("El token de jwt no es valido");
     }
 }

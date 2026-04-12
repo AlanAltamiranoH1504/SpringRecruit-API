@@ -8,6 +8,9 @@ import {ForgetPasswordPage} from './auth/pages/forget-password-page/forget-passw
 import {SaveNewPasswordPage} from './auth/pages/save-new-password-page/save-new-password-page';
 import {HomePage} from './home/pages/home-page/home-page';
 import {HomeCandidatesPage} from './home-candidates/pages/home-candidates-page/home-candidates-page';
+import {RecruiterDashboardPage} from './recuiter/pages/recruiter-dashboard-page/recruiter-dashboard-page';
+import {authGuard} from './guardians/auth-guard';
+import {recruiterGuardGuard} from './guardians/recruiter-guard-guard';
 
 export const routes: Routes = [
   {path: "login", component: LoginPage},
@@ -15,6 +18,11 @@ export const routes: Routes = [
     path: "home", children: [
       {path: "recruiter", component: HomePage},
       {path: "candidate", component: HomeCandidatesPage}
+    ]
+  },
+  {
+    path: "dashboard", canActivate: [authGuard], children: [ // * Validacion de guardian de login
+      {path: "recruiter", component: RecruiterDashboardPage, canActivate: [recruiterGuardGuard]} // * Validacion de guardian para usuarios reclutadores
     ]
   },
   {

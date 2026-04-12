@@ -3,6 +3,7 @@ package com.example.springboot_4_initial.exceptions;
 import com.example.springboot_4_initial.exceptions.application.ApplicationExistsException;
 import com.example.springboot_4_initial.exceptions.auth.NotCofirmAccountException;
 import com.example.springboot_4_initial.exceptions.auth.PasswordIncorrectException;
+import com.example.springboot_4_initial.exceptions.auth.TokenJwtInvalid;
 import com.example.springboot_4_initial.exceptions.categories.CreatedCategory;
 import com.example.springboot_4_initial.exceptions.categories.NameCategoryError;
 import com.example.springboot_4_initial.exceptions.categories.NotFoundCategories;
@@ -31,6 +32,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.io.IOException;
+import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -323,6 +325,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.OK).body(
                 iExcepcionService.generateMessageException(
                         "Ocurrio una situación con la aplicación a la vacante",
+                        "",
+                        ex.getMessage()
+                )
+        );
+    }
+
+    @ExceptionHandler(TokenJwtInvalid.class)
+    public ResponseEntity<?> handleTokenJwtInvalid(TokenJwtInvalid ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                iExcepcionService.generateMessageException("Ocurrio un error en el jwt", "", ex.getMessage())
+        );
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<?> handleSignatureException(SignatureException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                iExcepcionService.generateMessageException(
+                        "Ocurrio un error con la firma del jwt",
                         "",
                         ex.getMessage()
                 )

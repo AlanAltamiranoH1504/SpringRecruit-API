@@ -2,7 +2,7 @@ import {Component, inject, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {FormValidatorService} from '../../../services/form-validator-service';
 import {AuthService} from '../../services/auth-service';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -14,11 +14,13 @@ export class LoginPage {
   protected formBuilder = inject(FormBuilder);
   protected formValidatorService = inject(FormValidatorService);
   protected authService = inject(AuthService);
+  protected router = inject(Router);
+
   protected tokenJWT = signal<string>("");
   protected errorMessage = signal<string | null>(null);
 
   protected formLogin = this.formBuilder.group({
-    email: ["", [Validators.required, Validators.minLength(3)]],
+    email: ["", [Validators.required, Validators.minLength(3), Validators.email]],
     password: ["", [Validators.required, Validators.minLength(8)]]
   });
 
@@ -35,7 +37,18 @@ export class LoginPage {
     this.authService.loginApi(body).subscribe({
       next: (response) => {
         this.tokenJWT.set(response.token);
-        localStorage.setItem("tokenSpringRecruiter", JSON.stringify(response.token));
+        localStorage.setItem("tokenSpringRecruiter", response.token);
+        switch (response.isRecruiter) {
+          case true:
+            this.router.navigate(["/dashboard/recruiter"]);
+            // localStorage.setItem("isRecruiter", JSON.stringify(true));
+            break;
+          case false:
+            console.log("Es un candidatos");
+            break;
+          default:
+            console.log("Es un candidato");
+        }
       },
       error: (error) => {
         this.errorMessage.set(error.error.message);
