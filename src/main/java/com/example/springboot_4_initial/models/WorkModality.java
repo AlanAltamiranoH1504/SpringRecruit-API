@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class WorkModality {
     private String name_work_modality;
     private boolean status;
     @OneToMany(mappedBy = "workModality")
+    @JsonIgnore
     private List<Vacancy> vacancies;
 
     public WorkModality() {

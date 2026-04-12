@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
@@ -17,6 +18,7 @@ public class Category {
     private String description;
     private boolean status;
     @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Vacancy> vacancies = new ArrayList<>();
 
     public Category() {

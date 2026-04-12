@@ -16,8 +16,8 @@ public class ProgressStatus {
     private String name_progress_status;
     private String description_progress_status;
     private boolean status;
-    @JsonIgnore
     @OneToMany(mappedBy = "progressStatus")
+    @JsonIgnore
     private List<Vacancy> vacancies;
 
     public ProgressStatus() {

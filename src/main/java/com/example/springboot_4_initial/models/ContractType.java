@@ -15,8 +15,8 @@ public class ContractType {
     private Long id_contract_type;
     private String name_contract_type;
     private boolean status;
-    @JsonIgnore
     @OneToMany(mappedBy = "contract_type")
+    @JsonIgnore
     private List<Vacancy> vacancies;
 
     public ContractType() {

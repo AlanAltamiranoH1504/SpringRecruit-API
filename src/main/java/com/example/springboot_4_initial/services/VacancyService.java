@@ -1,9 +1,6 @@
 package com.example.springboot_4_initial.services;
 
-import com.example.springboot_4_initial.dto.vancacy.CreateVacancyDTO;
-import com.example.springboot_4_initial.dto.vancacy.SaveVacanciesDTO;
-import com.example.springboot_4_initial.dto.vancacy.VacancyFilterDTO;
-import com.example.springboot_4_initial.dto.vancacy.VacancySpecifications;
+import com.example.springboot_4_initial.dto.vancacy.*;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
 import com.example.springboot_4_initial.exceptions.vancacies.ErrorUpdateImgVacancy;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundEntityException;
@@ -14,16 +11,17 @@ import com.example.springboot_4_initial.models.Recruiter;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.models.Vacancy;
 import com.example.springboot_4_initial.repositories.*;
+import com.example.springboot_4_initial.security.JwtService;
 import com.example.springboot_4_initial.services.interfaces.ICryptoService;
-import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
 import com.example.springboot_4_initial.services.interfaces.IUserService;
 import com.example.springboot_4_initial.services.interfaces.IVacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -46,6 +44,8 @@ public class VacancyService implements IVacancyService {
     private IProgressStatusRepository iProgressStatusRepository;
     @Autowired
     private ICategoryRepository iCategoryRepository;
+    @Autowired
+    private JwtService jwtService;
 
 
     @Override
@@ -55,6 +55,18 @@ public class VacancyService implements IVacancyService {
             throw new NotFoundVacancys("No existen registros de vacantes");
         }
         return list_vacancies;
+    }
+
+    @Override
+    public List<VacancyWithApplicationDTO> listVacanciesByRecruiter(String tokenJWT) {
+        Pageable pageable = PageRequest.of(0, 5);
+        User user = iUserService.get_user(jwtService.extract_id_user(tokenJWT));
+        List<VacancyWithApplicationDTO> vacancyList = iVacancyRepository.listVacanciesByIdRecruiter(user.getRecruiter().getId_recruiter(), pageable);
+
+        if (vacancyList.isEmpty()) {
+            throw new ListEmptyException("No existen registros de vacantes de ese reclutador");
+        }
+        return vacancyList;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.springboot_4_initial.controllers;
 
 import com.example.springboot_4_initial.dto.ListEntityDTO;
 import com.example.springboot_4_initial.dto.ShowEntityDTO;
+import com.example.springboot_4_initial.dto.auth.IsJwtValidDTO;
 import com.example.springboot_4_initial.dto.recruiter.UpdateRecruiterDTO;
 import com.example.springboot_4_initial.services.interfaces.ICryptoService;
 import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
@@ -54,5 +55,10 @@ public class RecruiterController {
     public ResponseEntity<?> update_recruiter(@Valid @RequestBody UpdateRecruiterDTO updateRecruiterDTO, @PathVariable Long id_user) {
         iRecruiterService.update_recruiter(updateRecruiterDTO, id_user);
         return ResponseEntity.status(HttpStatus.OK).body(iResponseService.generate_response(true, "Datos de reclutador actualizados correctamente"));
+    }
+
+    @PostMapping("/recruiter_in_session")
+    public ResponseEntity<?> userInSesion(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(iRecruiterService.recruiterInSession(isJwtValidDTO.getToken()));
     }
 }

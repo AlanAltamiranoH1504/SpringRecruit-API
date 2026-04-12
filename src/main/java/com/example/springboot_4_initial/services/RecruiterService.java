@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.services;
 
+import com.example.springboot_4_initial.dto.recruiter.RecruiterInSessionDTO;
 import com.example.springboot_4_initial.dto.recruiter.UpdateRecruiterDTO;
 import com.example.springboot_4_initial.exceptions.CreatedEntityException;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
@@ -10,6 +11,7 @@ import com.example.springboot_4_initial.models.Recruiter;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.repositories.IRecruiterRepository;
 import com.example.springboot_4_initial.repositories.IUserRepository;
+import com.example.springboot_4_initial.security.JwtService;
 import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
 import com.example.springboot_4_initial.services.interfaces.IUserService;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +29,8 @@ public class RecruiterService implements IRecruiterService {
     private IUserService iUserService;
     @Autowired
     private IUserRepository iUserRepository;
+    @Autowired
+    private JwtService jwtService;
 
     @Override
     public List<Recruiter> list_recruiters(boolean Status) {
@@ -116,6 +120,21 @@ public class RecruiterService implements IRecruiterService {
             }
             return false;
         }
+    }
+
+    @Override
+    public RecruiterInSessionDTO recruiterInSession(String tokenJWT) {
+        Long idUser = jwtService.extract_id_user(tokenJWT);
+        User user = this.iUserService.get_user(idUser);
+        if (user.getRecruiter() == null) {
+            throw new NotFoundEntityException("No existe un usuario reclutador registrado con esa cuenta");
+        }
+        return new RecruiterInSessionDTO(
+                user.getRecruiter().getName(),
+                user.getRecruiter().getSurnames(),
+                user.getRecruiter().getUsername(),
+                user.getRecruiter().getImg_profile()
+        );
     }
 
     @Override

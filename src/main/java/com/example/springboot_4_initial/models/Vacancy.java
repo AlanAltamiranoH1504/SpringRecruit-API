@@ -32,31 +32,26 @@ public class Vacancy {
     // * Una vacante pertenece a un contract_type
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_contract_type")
-    @JsonIgnore
     private ContractType contract_type;
 
     // * Un vacante pertence a un proress_status
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_progress_status")
-    @JsonIgnore
     private ProgressStatus progressStatus;
 
     // * Una vacante pertenece a un sector de industrial
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_industrial_sector")
-    @JsonIgnore
     private IndustrialSector industrialSector;
 
     // * Una vacante pertence a una modalidad de trabajo
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_work_modality")
-    @JsonIgnore
     private WorkModality workModality;
 
     // * Una vacante pertenece a una categoria
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_category")
-    @JsonIgnore
     private Category category;
 
     // * Una vacante pertenece a un reclutador

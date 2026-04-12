@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class IndustrialSector {
     private String description_industrial_sector;
     private boolean status;
     @OneToMany(mappedBy = "industrialSector")
+    @JsonIgnore
     private List<Vacancy> vacancies;
 
     public IndustrialSector() {

@@ -1,10 +1,12 @@
 package com.example.springboot_4_initial.controllers;
 
+import com.example.springboot_4_initial.dto.auth.IsJwtValidDTO;
 import com.example.springboot_4_initial.dto.vancacy.*;
 import com.example.springboot_4_initial.models.Category;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.models.Vacancy;
 import com.example.springboot_4_initial.repositories.ICategoryRepository;
+import com.example.springboot_4_initial.security.JwtService;
 import com.example.springboot_4_initial.services.interfaces.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +28,16 @@ public class VacancyController {
     @Autowired
     private IVacancyService iVacancyService;
     @Autowired
-    private ICategoryRepository iCategoryRepository;
-    @Autowired
-    private ICategoryService iCategoryService;
-    @Autowired
-    private IImageService iImageService;
-    @Autowired
-    private IUserService iUserService;
-    @Autowired
     private IResponseService iResponseService;
 
     @GetMapping("/list")
     public ResponseEntity<?> list_vacancies(@Valid @RequestBody ListVacanciesDTO listVacanciesDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.list_vacancies(listVacanciesDTO.getStatus()));
+    }
+
+    @PostMapping("/list/by_recruiter")
+    public ResponseEntity<?> listVacanciesByRecruiter(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.listVacanciesByRecruiter(isJwtValidDTO.getToken()));
     }
 
     @PostMapping("/save_vacancy")

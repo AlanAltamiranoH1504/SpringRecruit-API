@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.security;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -64,6 +65,8 @@ public class SecurityConfig {
                         exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
                 .authorizeHttpRequests(request -> request
+//                                .requestMatchers(HttpMethod.OPTIONS).permitAll()
+
                                 // ! RUTAS PUBLICAS
                                 .requestMatchers(
                                         "/auth/**",
@@ -92,8 +95,9 @@ public class SecurityConfig {
                                         "/contract_type/list",
                                         "/contract_type/find/**",
                                         "/progress_status/list",
-                                        "/progress_status/find/**"
-
+                                        "/progress_status/find/**",
+                                        "/recruiter/recruiter_in_session",
+                                        "/vacancy/list/by_recruiter"
                                 ).hasAnyRole("RECLUTADOR", "ADMINISTRADOR")
 
                                 // ! RUTAS PARA CANDIDATOS AUTENTICADOS
