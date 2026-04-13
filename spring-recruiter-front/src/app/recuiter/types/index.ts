@@ -35,3 +35,15 @@ export interface ContractType {
   status: bigint
 }
 
+
+export interface ApplicationsByRecruiter {
+  idApplication: number;
+  applicationDate: string;
+  commentsCandidate: string | null;
+  status: string; // ajusta según tu enum
+  idVacancy: number;
+  nameVacancy: string;
+  idCandidate: number;
+  nameCandidate: string;
+  surnameCandidate: string;
+}

@@ -1,6 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {JWTRecruiter, ResponseListVacanciesByRecruiter, ResponseRecruiterInSession, VacancyByRecruiter} from '../types';
+import {
+  ApplicationsByRecruiter,
+  JWTRecruiter, ResponseListVacanciesByRecruiter, ResponseRecruiterInSession, VacancyByRecruiter
+} from '../types';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -20,6 +23,14 @@ export class RecruiterService {
 
   public recruiterInSession(req: JWTRecruiter) {
     return this.http.post<ResponseRecruiterInSession>(`${environment.URL_API_BACKEND}/recruiter/recruiter_in_session`, req, {
+      headers: {
+        "Authorization": "Bearer " + this.jwtToken
+      }
+    });
+  }
+
+  public applicationsByRecruiter(req: JWTRecruiter) {
+    return this.http.post<ApplicationsByRecruiter[]>(`${environment.URL_API_BACKEND}/application/list/by_recruiter`, req, {
       headers: {
         "Authorization": "Bearer " + this.jwtToken
       }
