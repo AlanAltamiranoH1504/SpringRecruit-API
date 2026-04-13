@@ -1,6 +1,8 @@
 package com.example.springboot_4_initial.repositories;
 
+import com.example.springboot_4_initial.dto.application.ApplicationByIdRecruiter;
 import com.example.springboot_4_initial.models.Application;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,23 @@ public interface IApplicationRepository extends JpaRepository<Application, Long>
 
     @Query("SELECT a FROM Application a WHERE a.candidate.id_candidate = :idCandidate")
     List<Application> applicationByIdCandidate(@Param("idCandidate") Long idCandidate);
+
+    @Query("""
+                SELECT new com.example.springboot_4_initial.dto.application.ApplicationByIdRecruiter(
+                    a.id_application, 
+                    a.application_date, 
+                    a.comments_candidate, 
+                    a.status, 
+                    v.id_vacancy, 
+                    v.name,
+                    c.id_candidate,
+                    c.name_candidate,
+                    c.lastname_candidate
+                )
+                FROM Application a
+                JOIN a.vacancy v
+                JOIN a.candidate c
+                WHERE v.recruiter.id_recruiter = :idRecruiter
+            """)
+    List<ApplicationByIdRecruiter> applicationByIdRecruiter(@Param("idRecruiter") Long idRecruiter, Pageable pageable);
 }

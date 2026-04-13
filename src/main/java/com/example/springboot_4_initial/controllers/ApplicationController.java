@@ -2,6 +2,9 @@ package com.example.springboot_4_initial.controllers;
 
 import com.example.springboot_4_initial.dto.application.CreateApplicationDTO;
 import com.example.springboot_4_initial.dto.application.UpdateApplicationDTO;
+import com.example.springboot_4_initial.dto.auth.IsJwtValidDTO;
+import com.example.springboot_4_initial.repositories.IRecruiterRepository;
+import com.example.springboot_4_initial.security.JwtService;
 import com.example.springboot_4_initial.services.interfaces.IApplicationService;
 import com.example.springboot_4_initial.services.interfaces.IResponseService;
 import jakarta.validation.Valid;
@@ -25,6 +28,13 @@ public class ApplicationController {
     @GetMapping("/list/by_candidate/{idCandidateCrypt}")
     public ResponseEntity<?> listApplicationByCandidate(@PathVariable String idCandidateCrypt) {
         return ResponseEntity.status(HttpStatus.OK).body(iApplicationService.listByIdCandidate(idCandidateCrypt));
+    }
+
+    @PostMapping("/list/by_recruiter")
+    public ResponseEntity<?> listApplicationsByIdRecruiter(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iApplicationService.applicationsByIdRecruiter(isJwtValidDTO.getToken())
+        );
     }
 
     @PostMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

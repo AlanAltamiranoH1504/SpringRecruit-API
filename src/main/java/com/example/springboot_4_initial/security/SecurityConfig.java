@@ -97,7 +97,8 @@ public class SecurityConfig {
                                         "/progress_status/list",
                                         "/progress_status/find/**",
                                         "/recruiter/recruiter_in_session",
-                                        "/vacancy/list/by_recruiter"
+                                        "/vacancy/list/by_recruiter",
+                                        "/application/list/by_recruiter"
                                 ).hasAnyRole("RECLUTADOR", "ADMINISTRADOR")
 
                                 // ! RUTAS PARA CANDIDATOS AUTENTICADOS

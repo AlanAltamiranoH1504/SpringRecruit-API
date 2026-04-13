@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.services;
 
+import com.example.springboot_4_initial.dto.application.ApplicationByIdRecruiter;
 import com.example.springboot_4_initial.dto.application.CreateApplicationDTO;
 import com.example.springboot_4_initial.dto.application.UpdateApplicationDTO;
 import com.example.springboot_4_initial.exceptions.CreatedEntityException;
@@ -7,20 +8,14 @@ import com.example.springboot_4_initial.exceptions.ListEmptyException;
 import com.example.springboot_4_initial.exceptions.NotFoundEntity;
 import com.example.springboot_4_initial.exceptions.application.ApplicationExistsException;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundEntityException;
-import com.example.springboot_4_initial.models.Application;
-import com.example.springboot_4_initial.models.Candidate;
-import com.example.springboot_4_initial.models.User;
-import com.example.springboot_4_initial.models.Vacancy;
+import com.example.springboot_4_initial.models.*;
 import com.example.springboot_4_initial.models.enums.ApplicationStatus;
-import com.example.springboot_4_initial.repositories.IApplicationRepository;
-import com.example.springboot_4_initial.repositories.ICandidateRepository;
-import com.example.springboot_4_initial.repositories.IUserRepository;
-import com.example.springboot_4_initial.repositories.IVacancyRepository;
-import com.example.springboot_4_initial.services.interfaces.IApplicationService;
-import com.example.springboot_4_initial.services.interfaces.ICloudinaryService;
-import com.example.springboot_4_initial.services.interfaces.ICryptoService;
-import com.example.springboot_4_initial.services.interfaces.IMailService;
+import com.example.springboot_4_initial.repositories.*;
+import com.example.springboot_4_initial.security.JwtService;
+import com.example.springboot_4_initial.services.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +42,10 @@ public class ApplicationService implements IApplicationService {
     private ICloudinaryService iCloudinaryService;
     @Autowired
     private IMailService iMailService;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private IRecruiterService iRecruiterService;
 
     @Override
     public List<Application> findAllByRecruiter(Long idRecruiter) {
@@ -70,6 +69,18 @@ public class ApplicationService implements IApplicationService {
     @Override
     public List<Application> listByIdRecruiter(Long idRecruiter) {
         return List.of();
+    }
+
+    @Override
+    public List<ApplicationByIdRecruiter> applicationsByIdRecruiter(String tokenJWT) {
+        Pageable pageable = PageRequest.of(0, 5);
+        User user = iUserRepository.getReferenceById(jwtService.extract_id_user(tokenJWT));
+        List<ApplicationByIdRecruiter> applicationByIdRecruiter = iApplicationRepository.applicationByIdRecruiter(user.getRecruiter().getId_recruiter(), pageable);
+
+        if (applicationByIdRecruiter.isEmpty()) {
+            throw new ListEmptyException("No existen aplicaciones a sus vacantes");
+        }
+        return applicationByIdRecruiter;
     }
 
     @Override
