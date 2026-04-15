@@ -9,8 +9,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class CreateVacancyDTO {
-    @NotBlank(message = "El id del usuario es requerido")
-    private String id_user_crypt;
+//    @NotBlank(message = "El id del usuario es requerido")
+//    private String id_user_crypt;
+
+    @NotBlank(message = "El token jwt es requerido")
+    private String jwt;
 
     @NotBlank(message = "El nombre de la vacante es requerido")
     @Length(max = 150, message = "El nombre no puede tener mas de 150 caracteres")
@@ -61,12 +64,21 @@ public class CreateVacancyDTO {
     @Range(min = 1, message = "Categoria no valida")
     private Long idCategory;
 
-    public String getId_user_crypt() {
-        return id_user_crypt;
+//    public String getId_user_crypt() {
+//        return id_user_crypt;
+//    }
+//
+//    public void setId_user_crypt(String id_user_crypt) {
+//        this.id_user_crypt = id_user_crypt;
+//    }
+
+
+    public String getJwt() {
+        return jwt;
     }
 
-    public void setId_user_crypt(String id_user_crypt) {
-        this.id_user_crypt = id_user_crypt;
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 
     public String getName() {

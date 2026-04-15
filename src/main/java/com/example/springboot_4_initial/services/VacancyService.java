@@ -72,7 +72,7 @@ public class VacancyService implements IVacancyService {
     @Override
     public Vacancy save_vacancy(CreateVacancyDTO createVacancyDTO) {
         // * Search Recruiter
-        User user = iUserService.get_user(iCryptoService.decrypt(createVacancyDTO.getId_user_crypt()));
+        User user = iUserService.get_user(jwtService.extract_id_user(createVacancyDTO.getJwt()));
         Recruiter recruiter = user.getRecruiter();
 
         // * Save vacancy

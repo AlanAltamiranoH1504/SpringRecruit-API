@@ -19,7 +19,7 @@ public class ContractTypeController {
     @Autowired
     private IResponseService iResponseService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public ResponseEntity<?> listContractsType(@Valid @RequestBody ListEntityDTO listEntityDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(iContractTypeService.findAll(listEntityDTO));
     }
