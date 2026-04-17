@@ -17,5 +17,5 @@ export const recruiterGuardGuard: CanActivateFn = (route, state) => {
           return false;
         }
       })
-    )
+    );
 };

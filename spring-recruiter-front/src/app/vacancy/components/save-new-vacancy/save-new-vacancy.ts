@@ -30,7 +30,7 @@ export class SaveNewVacancy {
     name: ["", [Validators.required, Validators.minLength(3)]],
     description: ["", [Validators.required, Validators.minLength(3)]],
     location: ["", [Validators.required, Validators.minLength(3)]],
-    salary: [0, [Validators.required, Validators.min(10)]],
+    salary: [null, [Validators.required, Validators.min(10)]],
     finish_date: ["", Validators.required],
     requirements: ["", [Validators.required, Validators.minLength(3)]],
     responsibilities: ["", [Validators.required, Validators.minLength(3)]],
@@ -69,7 +69,7 @@ export class SaveNewVacancy {
   }
 
   protected close() {
-    console.log("Cerrando el modal");
+    this.dialogRef.close();
   }
 
   onSubmit() {
@@ -91,12 +91,13 @@ export class SaveNewVacancy {
       idCategory: 3
     }
 
-    console.log(vacancyToSave)
-
     this.vacancyService.saveVacancy(vacancyToSave).subscribe({
       next: (data) => {
         this.isSuccess.set("Vacante guardada correctamente");
         this.formSaveVacancy.reset();
+        setTimeout(() => {
+          this.dialogRef.close();
+        }, 3000)
       },
       error: (error) => {
         this.isError.set(error.message.message);

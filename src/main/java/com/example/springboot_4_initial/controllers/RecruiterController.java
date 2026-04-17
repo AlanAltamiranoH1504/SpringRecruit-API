@@ -3,6 +3,7 @@ package com.example.springboot_4_initial.controllers;
 import com.example.springboot_4_initial.dto.ListEntityDTO;
 import com.example.springboot_4_initial.dto.ShowEntityDTO;
 import com.example.springboot_4_initial.dto.auth.IsJwtValidDTO;
+import com.example.springboot_4_initial.dto.recruiter.SendMailToCandidateDTO;
 import com.example.springboot_4_initial.dto.recruiter.UpdateRecruiterDTO;
 import com.example.springboot_4_initial.services.interfaces.ICryptoService;
 import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
@@ -42,7 +43,7 @@ public class RecruiterController {
     @DeleteMapping("/delete_recruiter/{id_recruiter}")
     public ResponseEntity<?> delete_recruiter(@PathVariable Long id_recruiter) {
         iRecruiterService.delete_recruiter(id_recruiter);
-        return ResponseEntity.status(HttpStatus.OK).body(iResponseService.generate_response(true,"Reclutador eliminado correctamente"));
+        return ResponseEntity.status(HttpStatus.OK).body(iResponseService.generate_response(true, "Reclutador eliminado correctamente"));
     }
 
     @DeleteMapping("/destroy_recruiter/{id_recruiter}")
@@ -60,5 +61,13 @@ public class RecruiterController {
     @PostMapping("/recruiter_in_session")
     public ResponseEntity<?> userInSesion(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(iRecruiterService.recruiterInSession(isJwtValidDTO.getToken()));
+    }
+
+    @PostMapping("/send_message_to_candidate")
+    public ResponseEntity<?> sendMessageToCandidate(@Valid @RequestBody SendMailToCandidateDTO sendMailToCandidateDTO) {
+        iRecruiterService.sendMailToCandidate(sendMailToCandidateDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iResponseService.generate_response(true, "Mensaje enviado a candidato")
+        );
     }
 }

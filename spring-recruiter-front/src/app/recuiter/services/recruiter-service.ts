@@ -5,6 +5,7 @@ import {
   JWTRecruiter, ResponseListVacanciesByRecruiter, ResponseRecruiterInSession, VacancyByRecruiter
 } from '../types';
 import {environment} from '../../../environments/environment';
+import {EmailToCandidate} from '../../applications/types';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,14 @@ export class RecruiterService {
 
   public applicationsByRecruiter(req: JWTRecruiter) {
     return this.http.post<ApplicationsByRecruiter[]>(`${environment.URL_API_BACKEND}/application/list/by_recruiter`, req, {
+      headers: {
+        "Authorization": "Bearer " + this.jwtToken
+      }
+    });
+  }
+
+  public sendMessageToCandidate(req: EmailToCandidate) {
+    return this.http.post<GeneralResponseAPI>(`${environment.URL_API_BACKEND}/recruiter/send_message_to_candidate`, req, {
       headers: {
         "Authorization": "Bearer " + this.jwtToken
       }

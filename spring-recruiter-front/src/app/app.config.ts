@@ -10,6 +10,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withFetch()),
-    importProvidersFrom(MatDialogModule)
+    importProvidersFrom(MatDialogModule) // * Servicio de dialogos para modales de Material
   ]
 };

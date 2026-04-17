@@ -4,10 +4,13 @@ import {ActiveJobsData} from '../../data/active-jobs.data';
 import {RecruiterService} from '../../services/recruiter-service';
 import {ResponseListVacanciesByRecruiter, VacancyByRecruiter} from '../../types';
 import {getTimeAgo} from '../../../utils/date-utils';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-active-jobs',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './active-jobs.html',
   styleUrl: './active-jobs.css',
 })

@@ -2,6 +2,7 @@ import {QuickAction} from '../types/QuickActions';
 
 export const QuickActionsData: QuickAction[] = [
   {
+    id: 1,
     title: "Publicar Nuevo Trabajo",
     description: "Crea y publica una nueva oferta de trabajo",
     icon: "<svg \n" +
@@ -36,6 +37,7 @@ export const QuickActionsData: QuickAction[] = [
   //   bgColor: "bg-purple-50",
   // },
   {
+    id: 2,
     title: "Enviar Mensaje",
     description: "Contacta con tus candidatos",
     icon: "<svg \n" +

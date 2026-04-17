@@ -1,17 +1,20 @@
 package com.example.springboot_4_initial.services;
 
 import com.example.springboot_4_initial.dto.recruiter.RecruiterInSessionDTO;
+import com.example.springboot_4_initial.dto.recruiter.SendMailToCandidateDTO;
 import com.example.springboot_4_initial.dto.recruiter.UpdateRecruiterDTO;
 import com.example.springboot_4_initial.exceptions.CreatedEntityException;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
 import com.example.springboot_4_initial.exceptions.NotFoundEntity;
 import com.example.springboot_4_initial.exceptions.UpdateException;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundEntityException;
+import com.example.springboot_4_initial.models.Candidate;
 import com.example.springboot_4_initial.models.Recruiter;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.repositories.IRecruiterRepository;
 import com.example.springboot_4_initial.repositories.IUserRepository;
 import com.example.springboot_4_initial.security.JwtService;
+import com.example.springboot_4_initial.services.interfaces.IMailService;
 import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
 import com.example.springboot_4_initial.services.interfaces.IUserService;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +34,8 @@ public class RecruiterService implements IRecruiterService {
     private IUserRepository iUserRepository;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private IMailService iMailService;
 
     @Override
     public List<Recruiter> list_recruiters(boolean Status) {
@@ -150,6 +155,25 @@ public class RecruiterService implements IRecruiterService {
         recruiter_by_token_confirm_account.setRandome_number(null);
         recruiter_by_token_confirm_account.setToken_confirm_account(null);
         iRecruiterRepository.save(recruiter_by_token_confirm_account);
+        return true;
+    }
+
+    @Override
+    public boolean sendMailToCandidate(SendMailToCandidateDTO sendMailToCandidateDTO) {
+        Optional<User> user = iUserService.get_user_by_email(sendMailToCandidateDTO.getEmailCandidate());
+        if (user.isEmpty()) {
+            throw new NotFoundEntityException("No existe un usuario candidato registrado con ese email");
+        } else if (user.get().getCandidate() == null) {
+            throw new NotFoundEntityException("No existe un usuario candidato registrado con ese email");
+        }
+
+        iMailService.sendMailToCandidate(
+                user.get().getEmail(),
+                "¡Un reclutador se ha comunicado contigo 🙌!",
+                user.get().getCandidate().getName_candidate(),
+                sendMailToCandidateDTO.getNameVacancy(),
+                sendMailToCandidateDTO.getBodyEmail()
+        );
         return true;
     }
 }

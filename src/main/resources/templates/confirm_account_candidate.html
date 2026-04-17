@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Verificación de Candidato</title>
+    <title>Nuevo mensaje de reclutador</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -12,66 +12,70 @@
     <tr>
         <td align="center">
 
+            <!-- CONTENEDOR -->
             <table width="100%" cellpadding="0" cellspacing="0"
                    style="max-width:600px; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.05);">
-
                 <tr>
-                    <td style="background: linear-gradient(135deg, #0f172a, #334155); padding:40px 30px; text-align:center;">
-                        <h1 style="color:#ffffff; margin:0; font-size:24px; letter-spacing: 1px;">
-                            Portal de Candidatos
+                    <td style="background: linear-gradient(135deg, #2563eb, #1e40af); padding:40px 30px; text-align:center;">
+                        <h1 style="color:#ffffff; margin:0; font-size:22px; letter-spacing:1px;">
+                            Nuevo contacto de reclutador
                         </h1>
                     </td>
                 </tr>
-
                 <tr>
                     <td style="padding:45px 35px; color:#374151;">
 
-                        <h2 style="margin-top:0; font-size:22px; font-weight:700; color: #111827;">
-                            ¡Bienvenido al equipo, <span th:text="${name_candidate}" style="color:#2563eb;">Candidato</span>! 🚀
+                        <h2 style="margin-top:0; font-size:22px; font-weight:700; color:#111827;">
+                            Hola <span th:text="${nameCandidate}" style="color:#2563eb;">Candidato</span> 👋
                         </h2>
 
                         <p style="font-size:16px; line-height:1.7; color:#4b5563;">
-                            Gracias por iniciar tu proceso con nosotros. Para completar tu registro y permitir que nuestros reclutadores vean tu perfil, por favor verifica tu cuenta.
+                            Un reclutador ha revisado tu perfil y está interesado en ti. Te ha enviado el siguiente
+                            mensaje:
                         </p>
 
-                        <div style="margin:35px 0; text-align:center;">
-                            <p style="font-size:14px; text-transform:uppercase; letter-spacing:2px; color:#9ca3af; margin-bottom:10px;">Tu código de acceso</p>
-                            <div style="display:inline-block;
-                                        padding:18px 35px;
-                                        background-color:#eff6ff;
-                                        border-radius:12px;
-                                        border:2px dashed #bfdbfe;
-                                        font-size:36px;
-                                        letter-spacing:10px;
-                                        font-weight:800;
-                                        color:#1e40af;">
-                                <span th:text="${randome_number}">654321</span>
-                            </div>
+                        <div style="
+                            margin:30px 0;
+                            padding:20px;
+                            background:#f9fafb;
+                            border-radius:12px;
+                            border:1px solid #e5e7eb;
+                            border-left:5px solid #2563eb;
+                        ">
+                            <p style="
+                                margin:0;
+                                font-size:15px;
+                                color:#374151;
+                                line-height:1.6;
+                                white-space: pre-line;
+                            " th:text="${body}">
+                                Contenido del mensaje...
+                            </p>
                         </div>
 
-                        <p style="font-size:14px; color:#6b7280; text-align:center;">
-                            Este código de seguridad expirará en <strong>10 minutos</strong>.
+                        <p style="font-size:15px; color:#4b5563;">
+                            Te recomendamos responder lo antes posible para continuar con el proceso de selección.
                         </p>
 
                         <div style="text-align:center; margin:40px 0;">
-                            <a th:href="${url}"
+                            <a href="#"
                                style="display:inline-block;
                                       background-color:#2563eb;
                                       color:#ffffff;
-                                      padding:16px 32px;
-                                      font-size:16px;
+                                      padding:14px 28px;
+                                      font-size:15px;
                                       font-weight:600;
                                       text-decoration:none;
-                                      border-radius:10px;
-                                      transition: background 0.3s ease;">
-                                Confirmar mi Perfil
+                                      border-radius:10px;">
+                                Ver mi perfil
                             </a>
                         </div>
 
                         <hr style="border:0; border-top:1px solid #f3f4f6; margin:30px 0;">
 
                         <p style="font-size:13px; color:#9ca3af; line-height:1.5;">
-                            ¿No has solicitado unirte a nuestro portal? No te preocupes, puedes borrar este correo con seguridad. Tu información no será procesada.
+                            Este mensaje fue enviado automáticamente desde la plataforma. No es necesario responder a
+                            este correo.
                         </p>
 
                     </td>
@@ -80,8 +84,8 @@
                 <tr>
                     <td style="background-color:#f9fafb; padding:30px; text-align:center;">
                         <p style="font-size:12px; color:#6b7280; margin:0;">
-                            © <span th:text="${anio}">2026</span> <strong>Talent Acquisition Team</strong><br>
-                            Estás recibiendo este correo porque te registraste en nuestra bolsa de empleo.
+                            © 2026 <strong>Spring Recruiter</strong><br>
+                            Conectando talento con oportunidades 🚀
                         </p>
                     </td>
                 </tr>

@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.repositories;
 
+import com.example.springboot_4_initial.dto.candidate.CandidateByRecruiterVacancy;
 import com.example.springboot_4_initial.models.Candidate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,24 @@ public interface ICandidateRepository extends JpaRepository<Candidate, Long> {
 
     @Query("SELECT c FROM Candidate c WHERE c.token_reset_password = :token AND c.randome_number = :random")
     public abstract Optional<Candidate> candidateToResetPassword(@Param("token") String token, @Param("random") String random);
+
+    @Query("""
+    SELECT new com.example.springboot_4_initial.dto.candidate.CandidateByRecruiterVacancy(
+        c.id_candidate,
+        c.name_candidate,
+        c.lastname_candidate,
+        c.user.email,
+        c.cellphone,
+        
+        v.id_vacancy,
+        v.name,
+        v.location,
+        v.publication_date
+    )
+    FROM Application a
+    JOIN a.vacancy v
+    JOIN a.candidate c
+    WHERE v.recruiter.id_recruiter = :idRecruiter
+""")
+    public abstract List<CandidateByRecruiterVacancy> getCandidatesByRecruiterVancacies(@Param("idRecruiter") Long idRecruiter);
 }

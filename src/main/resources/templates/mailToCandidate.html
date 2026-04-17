@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo contacto profesional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin:0; padding:0; background:#eef2f7; font-family: Arial, sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:30px 15px;">
+    <tr>
+        <td align="center">
+
+            <table width="100%" cellpadding="0" cellspacing="0"
+                   style="max-width:600px; background:#ffffff; border-radius:12px; overflow:hidden;">
+
+                <!-- Header -->
+                <tr>
+                    <td style="background:#111827; padding:15px 25px; color:white;">
+                        <strong style="font-size:14px;">Spring Recruiter</strong>
+                    </td>
+                </tr>
+
+                <!-- Title -->
+                <tr>
+                    <td style="padding:25px;">
+                        <h2 style="margin:0; color:#111827;">
+                            📩 Nuevo mensaje para ti
+                        </h2>
+                    </td>
+                </tr>
+
+                <!-- Content -->
+                <tr>
+                    <td style="padding:0 25px 25px 25px;">
+
+                        <p style="font-size:15px; color:#374151;">
+                            Hola <strong th:text="${nameCandidate}">Candidato</strong>,
+                        </p>
+
+                        <p style="font-size:14px; color:#6b7280;">
+                            Un reclutador ha revisado tu perfil y te contacta por la siguiente vacante:
+                        </p>
+
+                        <!-- Vacante destacada -->
+                        <div style="
+                            margin:15px 0 25px 0;
+                            padding:12px 15px;
+                            background:#f1f5f9;
+                            border-radius:8px;
+                            border:1px solid #e5e7eb;
+                            font-size:14px;
+                            color:#111827;
+                        ">
+                            💼 <strong th:text="${nameVancacy}">Nombre de la vacante</strong>
+                        </div>
+
+                        <!-- Mensaje -->
+                        <div style="
+                            margin:20px 0;
+                            padding:15px;
+                            background:#e0edff;
+                            border-radius:10px;
+                            border:1px solid #c7ddff;
+                        ">
+                            <p style="
+                                margin:0;
+                                font-size:14px;
+                                color:#1e3a8a;
+                                white-space: pre-line;
+                            " th:text="${body}">
+                                Mensaje del reclutador...
+                            </p>
+                        </div>
+
+                        <!-- Tip -->
+                        <div style="
+                            background:#fef3c7;
+                            color:#92400e;
+                            padding:12px;
+                            border-radius:8px;
+                            font-size:13px;
+                            margin:20px 0;
+                        ">
+                            ⚡ Responder rápido puede aumentar tus posibilidades de ser seleccionado.
+                        </div>
+
+                    </td>
+                </tr>
+
+                <!-- Divider -->
+                <tr>
+                    <td style="border-top:1px solid #e5e7eb;"></td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td style="padding:20px; text-align:center; font-size:12px; color:#9ca3af;">
+                        <p style="margin:0;">
+                            Este es un correo automático. No respondas directamente.
+                        </p>
+                        <p style="margin-top:5px;">
+                            © 2026 Spring Recruiter
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

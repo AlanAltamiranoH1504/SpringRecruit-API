@@ -9,4 +9,5 @@ public interface IMailService {
     public abstract void sendMailDeleteApplication(String to, String subject, String nameCandidate, String nameVacancy, String status, String lastUpdate);
     public abstract void sendMailResetPasswordCandidate(String to, String subject, String token, String randomNumber);
     public abstract void sendMailResetPasswordRecruiter(String to, String subject, String token, String randomNumber);
+    public abstract void sendMailToCandidate(String to, String subject, String nameCandidate, String nameVacancy, String body);
 }

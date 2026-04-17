@@ -1,0 +1,107 @@
+<h2 mat-dialog-title>Contacta a uno de tus candidatos</h2>
+
+<mat-dialog-content>
+  <p class="text-gray-700 text-sm mb-3">
+    Selecciona uno de tus candidatos y comienza el contacto con él o ella
+  </p>
+
+  <div class="overflow-y-scroll min-h-96 p-3">
+    <form class="space-y-2">
+      <div>
+        <label class="font-semibold">Candidatos</label>
+        <select (change)="onCandidateChange($event)" class="border border-gray-400 p-2 w-full mt-1 rounded-lg">
+          <option>Selecciona un candidato</option>
+          @for (candidate of candidates(); track candidate.idVacancy) {
+            <option [value]="candidate.idVacancy">{{ candidate.nameCandidate }} {{ candidate.lastnameCandidate }} -
+              <span class="text-blue-600">{{ candidate.nameVacancy }}</span></option>
+          }
+        </select>
+
+        @if (selectedCandidate() !== null) {
+          <form class="bg-white" [formGroup]="formSendMessageToCandidate" (ngSubmit)="onSubmit()">
+            <div class="mt-3 space-y-3 border border-gray-400 rounded-md p-2">
+              <div>
+                <label class="font-semibold">Nombre</label>
+                <input
+                  type="text"
+                  formControlName="nameCandidate"
+                  class="border p-2 w-full rounded-lg"
+                  [value]="selectedCandidate()?.nameCandidate + ' ' + selectedCandidate()?.lastnameCandidate"
+                  readonly
+                >
+
+                @if (formValidatorService.isValidField("nameCandidate", formSendMessageToCandidate)) {
+                  <span class=" text-red-600 text-center text-sm">
+                    {{formValidatorService.getFieldErros("nameCandidate", formSendMessageToCandidate)}}
+                  </span>
+                }
+              </div>
+
+              <div>
+                <label class="font-semibold">Correo</label>
+                <input
+                  type="email"
+                  formControlName="emailCandidate"
+                  class="border border-gray-400 p-2 w-full rounded-lg"
+                  [value]="selectedCandidate()?.emailCandidate"
+                  readonly
+                >
+                @if (formValidatorService.isValidField("emailCandidate", formSendMessageToCandidate)) {
+                  <span class=" text-red-600 text-center text-sm">
+                    {{formValidatorService.getFieldErros("emailCandidate", formSendMessageToCandidate)}}
+                  </span>
+                }
+              </div>
+
+              <div>
+                <label class="font-semibold">Vacante</label>
+                <input
+                  type="text"
+                  formControlName="nameVacancy"
+                  class="border border-gray-400 p-2 w-full rounded-lg"
+                  [value]="selectedCandidate()?.nameVacancy"
+                  readonly
+                >
+                @if (formValidatorService.isValidField("nameVacancy", formSendMessageToCandidate)) {
+                  <span class=" text-red-600 text-center text-sm">
+                    {{formValidatorService.getFieldErros("nameVacancy", formSendMessageToCandidate)}}
+                  </span>
+                }
+              </div>
+
+              <div>
+                <label class="font-semibold">Mensaje de Correo</label>
+                <textarea formControlName="bodyEmail" class="border border-gray-400 p-2 w-full rounded-lg" [rows]="5"
+                          placeholder="Cuerpo de correo"></textarea>
+                @if (formValidatorService.isValidField("bodyEmail", formSendMessageToCandidate)) {
+                  <span class=" text-red-600 text-center text-sm">
+                    {{formValidatorService.getFieldErros("bodyEmail", formSendMessageToCandidate)}}
+                  </span>
+                }
+              </div>
+
+              <button
+                class="w-full border px-3 py-2 text-white cursor-pointer bg-blue-600 font-semibold hover:bg-blue-700 transition-colors rounded-lg">
+                Enviar Correo
+              </button>
+            </div>
+          </form>
+
+          @if (successMessage()) {
+            <div class="bg-blue-100 text-center rounded-lg my-3 text-blue-600 px-3 py-2 font-semibold text-sm">{{successMessage()}}</div>
+          } @else if (errorMessage()) {
+            <div class="bg-red-100 text-center rounded-lg my-3 text-red-600 px-3 py-2 font-semibold text-sm">{{errorMessage()}}</div>
+          }
+
+        } @else {
+          <div class="text-center font-semibold text-sm text-red-600 mt-4">Selecciona alguno de los candidatos
+            listados
+          </div>
+        }
+      </div>
+
+      <div></div>
+    </form>
+  </div>
+
+</mat-dialog-content>

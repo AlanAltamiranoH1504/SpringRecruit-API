@@ -145,4 +145,25 @@ public class MailService implements IMailService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void sendMailToCandidate(String to, String subject, String nameCandidate, String nameVancacy, String body) {
+        Context context = new Context();
+        context.setVariable("nameCandidate", nameCandidate);
+        context.setVariable("nameVancacy", nameVancacy);
+        context.setVariable("body", body);
+
+        String htmlContent = templateEngine.process("mailToCandidate", context);
+        MimeMessage message = mailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.example.springboot_4_initial.services;
 import com.example.springboot_4_initial.dto.application.ApplicationByIdRecruiter;
 import com.example.springboot_4_initial.dto.application.CreateApplicationDTO;
 import com.example.springboot_4_initial.dto.application.UpdateApplicationDTO;
+import com.example.springboot_4_initial.dto.candidate.CandidateByRecruiterVacancy;
 import com.example.springboot_4_initial.exceptions.CreatedEntityException;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
 import com.example.springboot_4_initial.exceptions.NotFoundEntity;
@@ -81,6 +82,19 @@ public class ApplicationService implements IApplicationService {
             throw new ListEmptyException("No existen aplicaciones a sus vacantes");
         }
         return applicationByIdRecruiter;
+    }
+
+    @Override
+    public List<CandidateByRecruiterVacancy> findAllCandidatesByRecruiterVacancies(String tokenJWT) {
+        User user = iUserRepository.getReferenceById(jwtService.extract_id_user(tokenJWT));
+        List<CandidateByRecruiterVacancy> candidatesByRecruiterVacancies = this.iCandidateRepository.getCandidatesByRecruiterVancacies(
+                user.getRecruiter().getId_recruiter()
+        );
+
+        if (candidatesByRecruiterVacancies.isEmpty()) {
+            throw new ListEmptyException("No existen candidatos que han aplicado a tus vacantes");
+        }
+        return candidatesByRecruiterVacancies;
     }
 
     @Override

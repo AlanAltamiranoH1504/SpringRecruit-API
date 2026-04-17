@@ -37,6 +37,13 @@ public class ApplicationController {
         );
     }
 
+    @PostMapping("/find_all/by_recruiter")
+    public ResponseEntity<?> findAllCandidatesByRecruiterVacancies(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iApplicationService.findAllCandidatesByRecruiterVacancies(isJwtValidDTO.getToken())
+        );
+    }
+
     @PostMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> saveApplication(
             @RequestPart("file") MultipartFile cv,
