@@ -26,7 +26,8 @@ export interface VacancyByRecruiter {
   responsibilities: string,
   image: string,
   status: boolean,
-  contract_type: ContractType
+  contract_type: ContractType,
+  progressStatus: ProgressStatus
 }
 
 export interface ContractType {
@@ -34,13 +35,19 @@ export interface ContractType {
   name_contract_type: string,
   status: bigint
 }
+export interface ProgressStatus {
+  id_progress_status: number,
+  name_progress_status: string,
+  description_progress_status: string,
+  status: boolean
+}
 
 
 export interface ApplicationsByRecruiter {
   idApplication: number;
   applicationDate: string;
   commentsCandidate: string | null;
-  status: string; // ajusta según tu enum
+  status: string;
   idVacancy: number;
   nameVacancy: string;
   idCandidate: number;

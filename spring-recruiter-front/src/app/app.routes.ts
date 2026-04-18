@@ -21,6 +21,7 @@ import {
 import {RecruitersDashboardReports} from './recuiter/pages/recruiters-dashboard-reports/recruiters-dashboard-reports';
 import {RecruitersDashboardHelp} from './recuiter/pages/recruiters-dashboard-help/recruiters-dashboard-help';
 import {RecruitersDashboardSumary} from './recuiter/pages/recruiters-dashboard-sumary/recruiters-dashboard-sumary';
+import {VacancyDetailsPage} from './vacancy/pages/vacancy-details-page/vacancy-details-page';
 
 export const routes: Routes = [
   {path: "login", component: LoginPage},
@@ -38,7 +39,11 @@ export const routes: Routes = [
         component: RecruiterDashboardPage,
         children: [
           {path: "", component: RecruitersDashboardSumary},
-          {path: "work", component: RecruitersDashboardWorks},
+          {
+            path: "work", component: RecruitersDashboardWorks, children: [
+              {path: ":id", component: VacancyDetailsPage}
+            ]
+          },
           {path: "candidates", component: RecruitersDashboardCandidates},
           {path: "applications", component: RecruitersDashboardApplications},
           {path: "reports", component: RecruitersDashboardReports},
