@@ -2,6 +2,11 @@ export interface JWTRecruiter {
   token: string
 }
 
+export interface VacanciesByRecruiter {
+  token: string,
+  idsProgressStatus: Number[]
+}
+
 export interface ResponseRecruiterInSession {
   name: string
   surnames: string,

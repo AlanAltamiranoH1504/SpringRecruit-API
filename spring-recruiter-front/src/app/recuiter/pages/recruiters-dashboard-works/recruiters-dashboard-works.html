@@ -79,20 +79,21 @@
         </div>
       </div>
 
-      <div class="grid gap-4 md:grid-cols-2 ">
-        @for (vacancy of vacancies(); track vacancy.vacancy.id_vacancy) {
-          <div class="hover:shadow-md transition-shadow cursor-pointer border border-gray-400 p-3 bg-white rounded-lg">
-            <div class="p-6">
-              <div class="flex items-start justify-between">
-                <div class="flex-1">
-                  <div class="flex items-start gap-3">
-                    <a [routerLink]="['/dashboard/recruiter/work', vacancy.vacancy.id_vacancy]" class="font-semibold text-gray-900 text-lg">{{ vacancy.vacancy.name }}</a>
-                    <span
-                      [class]="getStatusVacancy(vacancy.vacancy.progressStatus.id_progress_status)" class="rounded-md">{{ vacancy.vacancy.progressStatus.name_progress_status }}</span>
-                  </div>
+      <div class="overflow-y-scroll max-h-[550px] p-10 border border-gray-400 rounded-lg">
+        <div class="grid gap-4 md:grid-cols-2 ">
+          @for (vacancy of vacancies(); track vacancy.vacancy.id_vacancy) {
+            <div class="hover:shadow-md transition-shadow cursor-pointer border border-gray-400 p-3 bg-white rounded-lg">
+              <div class="p-6">
+                <div class="flex items-start justify-between">
+                  <div class="flex-1">
+                    <div class="flex items-start gap-3">
+                      <a [routerLink]="['/dashboard/recruiter/work', vacancy.vacancy.id_vacancy]" class="font-semibold text-gray-900 text-lg">{{ vacancy.vacancy.name }}</a>
+                      <span
+                        [class]="getStatusVacancy(vacancy.vacancy.progressStatus.id_progress_status)" class="rounded-md">{{ vacancy.vacancy.progressStatus.name_progress_status }}</span>
+                    </div>
 
-                  <div class="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-600">
-                    <div class="flex gap-4">
+                    <div class="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-600">
+                      <div class="flex gap-4">
                       <span class="h-4 w-4">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -109,17 +110,17 @@
                         <circle cx="12" cy="10" r="3"/>
                         </svg>
                       </span>
-                      <span>{{ vacancy.vacancy.location }}</span>
+                        <span>{{ vacancy.vacancy.location }}</span>
+                      </div>
+                      <span>•</span>
+                      <span>{{ vacancy.vacancy.contract_type.name_contract_type }}</span>
+                      <span>•</span>
+                      <span>Hace {{ getTimeAgo(vacancy.vacancy.publication_date) }} días</span>
                     </div>
-                    <span>•</span>
-                    <span>{{ vacancy.vacancy.contract_type.name_contract_type }}</span>
-                    <span>•</span>
-                    <span>Hace {{ getTimeAgo(vacancy.vacancy.publication_date) }} días</span>
-                  </div>
 
-                  <div class="mt-4 flex items-center gap-6 text-sm">
-                    <div class="flex items-center gap-1 text-gray-600">
-                      <div class="flex gap-4">
+                    <div class="mt-4 flex items-center gap-6 text-sm">
+                      <div class="flex items-center gap-1 text-gray-600">
+                        <div class="flex gap-4">
                         <span class="h-4 w-4">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -138,17 +139,18 @@
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                           </svg>
                         </span>
-                        <span class="font-medium text-gray-900">
+                          <span class="font-medium text-gray-900">
                           {{ vacancy.totalApplications }} aplicaciones
                         </span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        }
+          }
+        </div>
       </div>
     </div>
   </div>

@@ -23,10 +23,10 @@ public interface IVacancyRepository extends JpaRepository<Vacancy, Long>, JpaSpe
 
     @Query(""" 
             SELECT new com.example.springboot_4_initial.dto.vancacy.VacancyWithApplicationDTO(v, COUNT(a) )
-            FROM Vacancy v 
+            FROM Vacancy v
             LEFT JOIN Application a ON a.vacancy.id_vacancy = v.id_vacancy
-            WHERE v.recruiter.id_recruiter = :idRecruiter 
-            AND v.progressStatus.id_progress_status = 1
+            WHERE v.recruiter.id_recruiter = :idRecruiter
+            AND v.progressStatus.id_progress_status IN :idsProgressStatus
             GROUP BY v""")
-    public abstract List<VacancyWithApplicationDTO> listVacanciesByIdRecruiter(@Param("idRecruiter") Long idRecruiter, Pageable pageable);
+    public abstract List<VacancyWithApplicationDTO> listVacanciesByIdRecruiter(@Param("idRecruiter") Long idRecruiter, @Param("idsProgressStatus") List<Long> idsProgressStatus, Pageable pageable);
 }

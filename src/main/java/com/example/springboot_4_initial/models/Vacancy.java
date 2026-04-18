@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity()
 @Table(name = "tbl_vacancys")
@@ -59,6 +61,11 @@ public class Vacancy {
     @JoinColumn(name = "id_recruiter")
     @JsonIgnore
     private Recruiter recruiter;
+
+    // * Una vacante puede tener muchos aplicaciones
+    @OneToMany(mappedBy = "vacancy")
+    @JsonIgnore
+    public List<Application> applications = new ArrayList<>();
 
     public Vacancy() {
     }

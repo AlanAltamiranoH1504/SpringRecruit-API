@@ -37,7 +37,7 @@ public class VacancyController {
 
     @PostMapping("/list/by_recruiter")
     public ResponseEntity<?> listVacanciesByRecruiter(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.listVacanciesByRecruiter(isJwtValidDTO.getToken()));
+        return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.listVacanciesByRecruiter(isJwtValidDTO.getToken(), isJwtValidDTO.getIdsProgressStatus()));
     }
 
     @PostMapping("/save_vacancy")

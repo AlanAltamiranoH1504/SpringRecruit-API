@@ -58,10 +58,10 @@ public class VacancyService implements IVacancyService {
     }
 
     @Override
-    public List<VacancyWithApplicationDTO> listVacanciesByRecruiter(String tokenJWT) {
-        Pageable pageable = PageRequest.of(0, 5);
+    public List<VacancyWithApplicationDTO> listVacanciesByRecruiter(String tokenJWT, List<Long> idsProgressStatus) {
+        Pageable pageable = PageRequest.of(0, 200);
         User user = iUserService.get_user(jwtService.extract_id_user(tokenJWT));
-        List<VacancyWithApplicationDTO> vacancyList = iVacancyRepository.listVacanciesByIdRecruiter(user.getRecruiter().getId_recruiter(), pageable);
+        List<VacancyWithApplicationDTO> vacancyList = iVacancyRepository.listVacanciesByIdRecruiter(user.getRecruiter().getId_recruiter(), idsProgressStatus, pageable);
 
         if (vacancyList.isEmpty()) {
             throw new ListEmptyException("No existen registros de vacantes de ese reclutador");
