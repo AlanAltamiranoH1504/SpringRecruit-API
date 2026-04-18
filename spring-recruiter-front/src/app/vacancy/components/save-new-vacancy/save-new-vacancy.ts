@@ -94,6 +94,7 @@ export class SaveNewVacancy {
     this.vacancyService.saveVacancy(vacancyToSave).subscribe({
       next: (data) => {
         this.isSuccess.set("Vacante guardada correctamente");
+        this.vacancyService.refreshVacancies();
         this.formSaveVacancy.reset();
         setTimeout(() => {
           this.dialogRef.close();
