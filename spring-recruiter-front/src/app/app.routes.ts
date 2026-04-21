@@ -22,6 +22,9 @@ import {RecruitersDashboardReports} from './recuiter/pages/recruiters-dashboard-
 import {RecruitersDashboardHelp} from './recuiter/pages/recruiters-dashboard-help/recruiters-dashboard-help';
 import {RecruitersDashboardSumary} from './recuiter/pages/recruiters-dashboard-sumary/recruiters-dashboard-sumary';
 import {VacancyDetailsPage} from './vacancy/pages/vacancy-details-page/vacancy-details-page';
+import {
+  RecruiterDashboardWorkPage
+} from './recuiter/pages/recruiters-dashboard-works/pages/recruiter-dashboard-work-page/recruiter-dashboard-work-page';
 
 export const routes: Routes = [
   {path: "login", component: LoginPage},
@@ -41,7 +44,8 @@ export const routes: Routes = [
           {path: "", component: RecruitersDashboardSumary},
           {
             path: "work", component: RecruitersDashboardWorks, children: [
-              {path: ":id", component: VacancyDetailsPage}
+              {path: "", component: RecruiterDashboardWorkPage},
+              {path: "details/:id", component: VacancyDetailsPage}
             ]
           },
           {path: "candidates", component: RecruitersDashboardCandidates},

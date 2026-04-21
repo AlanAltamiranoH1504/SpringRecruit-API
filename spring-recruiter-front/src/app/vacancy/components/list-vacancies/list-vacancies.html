@@ -5,7 +5,7 @@
         <div class="flex items-start justify-between">
           <div class="flex-1">
             <div class="flex items-start gap-3">
-              <a [routerLink]="['/dashboard/recruiter/work', vacancy.vacancy.id_vacancy]"
+              <a [routerLink]="['/dashboard/recruiter/work/details', vacancy.vacancy.id_vacancy]"
                  class="font-semibold text-gray-900 text-lg">{{ vacancy.vacancy.name }}</a>
               <span
                 [class]="getStatusVacancy(vacancy.vacancy.progressStatus.id_progress_status)"

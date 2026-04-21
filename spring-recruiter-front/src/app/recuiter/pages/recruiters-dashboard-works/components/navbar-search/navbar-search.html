@@ -1,0 +1,65 @@
+<div class="bg-white border border-gray-200 rounded-xl my-6 px-5 py-10 shadow-sm">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <div class="relative w-full lg:max-w-lg">
+      <svg
+        class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+
+      <input
+        type="text"
+        placeholder="Buscar trabajos..."
+        class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm
+               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+               transition"
+      >
+    </div>
+
+    <div class="flex flex-wrap gap-4 items-center">
+      <select
+        class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
+               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+               cursor-pointer transition">
+        <option value="">Tipo de contrato</option>
+        @for (typeContract of contractTypes(); track typeContract.id_contract_type) {
+          <option [ngValue]="typeContract.id_contract_type">
+            {{ typeContract.name_contract_type }}
+          </option>
+        }
+      </select>
+      <select
+        class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
+               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+               cursor-pointer transition">
+        <option value="">Sector industrial</option>
+        @for (indusSector of industrialSertors(); track indusSector.id_industrial_sector) {
+          <option [ngValue]="indusSector.id_industrial_sector">
+            {{ indusSector.name_industrial_sector }}
+          </option>
+        }
+      </select>
+      <select
+        class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
+               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+               cursor-pointer transition">
+        <option value="">Modalidad</option>
+        @for (wM of workModalities(); track wM.id_work_modality) {
+          <option [ngValue]="wM.id_work_modality">
+            {{ wM.name_work_modality }}
+          </option>
+        }
+      </select>
+      <button
+        class="text-sm text-gray-500 hover:text-red-500 transition">
+        Limpiar
+      </button>
+    </div>
+  </div>
+</div>
