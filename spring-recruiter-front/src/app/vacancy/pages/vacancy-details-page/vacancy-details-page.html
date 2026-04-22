@@ -1,9 +1,157 @@
 <div class="space-y-6">
-  <div class="flex items-center justify-items-start gap-4">
-    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
-      <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
-    </svg>
-    <a routerLink="/dashboard/recruiter/work" class="text-blue-600 hover:font-semibold transition-colors duration-500">Volver
-      a trabajos</a>
+  <div class="flex items-center justify-between">
+    <div class="flex items-center justify-center gap-4">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+        <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+      </svg>
+      <a routerLink="/dashboard/recruiter/work"
+         class="text-blue-600 hover:font-semibold transition-colors duration-500">Volver
+        a trabajos</a>
+    </div>
+
+
+    <div class="flex gap-2">
+      <button
+        class="flex items-center justify-center gap-3 border px-3 py-2 rounded-lg cursor-pointer border-blue-600 hover:text-white hover:bg-blue-600 hover:font-semibold">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+          <path
+            d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+        </svg>
+        Editar
+      </button>
+
+      <span>Down Menu</span>
+    </div>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-3">
+    <div class="lg:col-span-2 space-y-6">
+      <div class="flex flex-col gap-4 border border-gray-400 rounded-lg p-4">
+        <div class="space-y-2 ">
+          <h2 class="text-3xl">{{ vacancy()?.vacancy?.name }}</h2>
+          <div class="flex items-center justify-center gap-2 w-48 rounded-lg"
+               [class]="vacancyService.getColorStatus(vacancy()?.vacancy!.progressStatus.id_progress_status)">
+            {{ vacancy()?.vacancy!.progressStatus.name_progress_status }}
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="flex items-center gap-3 text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                   fill="#000000">
+                <path
+                  d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 400Q319-215 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 113-79.5 232.5T480-80Z"/>
+              </svg>
+              <div>
+                <div class="text-xs  text-gray-500">Ubicación</div>
+                <div class="font-medium text-gray-900">{{ vacancy()?.vacancy!.location }}</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                   fill="#000000">
+                <path
+                  d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM440-320h200v-80H440v80Zm0-120h200v-80H440v80Zm-120 240q17 0 28.5-11.5T360-240q0-17-11.5-28.5T320-280q-17 0-28.5 11.5T280-240q0 17 11.5 28.5T320-200Zm0-120q17 0 28.5-11.5T360-360q0-17-11.5-28.5T320-400q-17 0-28.5 11.5T280-360q0 17 11.5 28.5T320-320Zm0-120q17 0 28.5-11.5T360-480q0-17-11.5-28.5T320-520q-17 0-28.5 11.5T280-480q0 17 11.5 28.5T320-440ZM240-600v-200 200 640-640Z"/>
+              </svg>
+
+              <div>
+                <div class="text-xs  text-gray-500">Tipo Contratación</div>
+                <div class="font-medium text-gray-900">{{ vacancy()?.vacancy!.contract_type.name_contract_type }}</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                   fill="#000000">
+                <path
+                  d="M80-120v-640l400 160v-160l400 160v480H80Zm80-80h80v-120h-80v120Zm160 0h80v-120h-80v120Zm160 0h80v-120h-80v120Zm160 0h80v-120h-80v120Zm160 0h80v-120h-80v120ZM160-360h80v-120h-80v120Zm160 0h80v-120h-80v120Zm160 0h80v-120h-80v120Zm160 0h80v-120h-80v120Zm160 0h80v-120h-80v120ZM480-520l-320-128v288l320 128V520Zm320 128-320-128v448l320-128V392Z"/>
+              </svg>
+
+              <div>
+                <div class="text-xs  text-gray-500">Sector Industrial</div>
+                <div
+                  class="font-medium text-gray-900">{{ vacancy()?.vacancy!.industrialSector.name_industrial_sector }}
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                   stroke="currentColor" width="24px" height="24px">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253"/>
+              </svg>
+              <div>
+                <div class="text-xs  text-gray-500">Modalidad de Trabajo</div>
+                <div class="font-medium text-gray-900">{{ vacancy()?.vacancy!.workModality.name_work_modality }}</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                   fill="#000000">
+                <path
+                  d="M560-440q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM280-320q-33 0-56.5-23.5T200-400v-320q0-33 23.5-56.5T280-800h560q33 0 56.5 23.5T920-720v320q0 33-23.5 56.5T840-320H280Zm80-80h400q0-33 23.5-56.5T840-480v-160q-33 0-56.5-23.5T720-720H400q0 33-23.5 56.5T280-640v160q33 0 56.5 23.5T360-400Zm-240 240q-33 0-56.5-23.5T40-240v-440h80v440h520v80H120Z"/>
+              </svg>
+
+              <div>
+                <div class="text-xs  text-gray-500">Salario</div>
+                <div class="font-medium text-gray-900">{{ vacancy()?.vacancy!.salary | currency }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t pt-6 border-t-gray-400">
+            <h3 class="font-semibold text-gray-900 mb-3">Fecha Publicación</h3>
+            {{ vacancy()?.vacancy!.publication_date | date }}
+          </div>
+        </div>
+      </div>
+
+      <div class="grid w-full grid-cols-4 bg-gray-200 rounded-lg p-2">
+        @for (action of actions(); track action.idAction) {
+          <button type="button" (click)="changeActiveTab(action.idAction)"
+                  class="text-center hover:font-medium cursor-pointer">{{ action.nameAction }}
+          </button>
+        }
+      </div>
+
+      @if (activeTab() === 1) {
+        <div class="mt-6 p-3 border border-gray-400 rounded-lg">
+          <h2 class="text-xl font-medium">Descripción del Puesto</h2>
+          <div class="whitespace-pre-line text-gray-700 leading-relaxed">
+            {{vacancy()?.vacancy!.description}}
+          </div>
+        </div>
+      }
+
+      @if (activeTab() === 2) {
+        <div class="mt-6 p-3 border border-gray-400 rounded-lg">
+          <h2 class="text-xl font-medium">Requisitos</h2>
+          <div class="whitespace-pre-line text-gray-700 leading-relaxed">
+            {{vacancy()?.vacancy!.requirements}}
+          </div>
+        </div>
+      }
+
+      @if (activeTab() === 3) {
+        <div class="mt-6 p-3 border border-gray-400 rounded-lg">
+          <h2 class="text-xl font-medium">Candidatos</h2>
+
+          <app-candidate-list-component [idVacancy]="vacancy()?.vacancy!.id_vacancy"></app-candidate-list-component>
+        </div>
+      }
+
+      @if (activeTab() === 4) {
+        <div class="mt-6 p-3 border border-gray-400 rounded-lg">
+          <h2 class="text-xl font-medium">Responsabilidades</h2>
+          <div class="whitespace-pre-line text-gray-700 leading-relaxed">
+            {{vacancy()?.vacancy!.responsibilities}}
+          </div>
+        </div>
+      }
+    </div>
   </div>
 </div>

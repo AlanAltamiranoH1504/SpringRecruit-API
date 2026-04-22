@@ -13,3 +13,8 @@ export interface SaveVacancy {
   idProgressStatus: number,
   idCategory: number
 }
+
+export interface ActionDetails {
+  idAction: number,
+  nameAction: string
+}

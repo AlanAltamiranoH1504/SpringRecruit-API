@@ -2,6 +2,7 @@ package com.example.springboot_4_initial.services;
 
 import com.example.springboot_4_initial.dto.vancacy.*;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
+import com.example.springboot_4_initial.exceptions.NotFoundEntity;
 import com.example.springboot_4_initial.exceptions.vancacies.ErrorUpdateImgVacancy;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundEntityException;
 import com.example.springboot_4_initial.exceptions.vancacies.NotFoundVacancy;
@@ -113,6 +114,19 @@ public class VacancyService implements IVacancyService {
     }
 
     @Override
+    public VacancyWithApplicationDTO getVacancyWithApplications(String tokenJWT, Long idVacancy) {
+        User user = iUserService.get_user(jwtService.extract_id_user(tokenJWT));
+        if (user == null) {
+            throw new NotFoundEntity("No se encontro ningun usuario registrado con esos datos");
+        }
+        var recruiter = user.getRecruiter();
+        VacancyWithApplicationDTO vacancyWithApplicationDTO = iVacancyRepository.getVacancyWithApplications(
+                idVacancy, recruiter.getId_recruiter()
+        );
+        return vacancyWithApplicationDTO;
+    }
+
+    @Override
     public boolean delete_vacancy(Long id) {
 //        Vacancy vacancy_to_delete = this.get_vacancy(id);
 //        vacancy_to_delete.setStatus(false);
@@ -154,15 +168,26 @@ public class VacancyService implements IVacancyService {
     }
 
     @Override
-    public List<Vacancy> search_vacancies(VacancyFilterDTO vacancyFilterDTO) {
+    public List<VacancyWithApplicationDTO> search_vacancies(VacancyFilterDTO vacancyFilterDTO) {
         Specification<Vacancy> spec = VacancySpecifications.buildQuery(vacancyFilterDTO);
-        return iVacancyRepository.findAll(spec);
+
+        return iVacancyRepository.findAll(spec)
+                .stream()
+                .map(vacancy -> {
+                    VacancyWithApplicationDTO dto = new VacancyWithApplicationDTO();
+                    dto.setVacancy(vacancy);
+                    dto.setTotalApplications(
+                            (long) vacancy.applications.size()
+                    );
+                    return dto;
+                })
+                .toList();
     }
 
     @Override
     public boolean save_vacancies(SaveVacanciesDTO saveVacanciesDTO) {
         List<CreateVacancyDTO> vacanciesDTO = saveVacanciesDTO.getVacancies();
-        for (CreateVacancyDTO vacancy: vacanciesDTO) {
+        for (CreateVacancyDTO vacancy : vacanciesDTO) {
             this.save_vacancy(vacancy);
         }
         return true;

@@ -51,6 +51,13 @@ public class VacancyController {
         return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.get_vacancy(id));
     }
 
+    @PostMapping("/get_vacancy/{idVacancy}")
+    public ResponseEntity<?> getVacancyWithApplicationsAndAllData(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO, @PathVariable Long idVacancy) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iVacancyService.getVacancyWithApplications(isJwtValidDTO.getToken(), idVacancy)
+        );
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update_vacancy(@Valid @RequestBody UpdateVacancyDTO updateVacancyDTO, @PathVariable Long id, BindingResult bindingResult) {
         Map<String, Object> json = new HashMap<>();

@@ -32,7 +32,9 @@ export interface VacancyByRecruiter {
   image: string,
   status: boolean,
   contract_type: ContractType,
-  progressStatus: ProgressStatus
+  progressStatus: ProgressStatus,
+  industrialSector: IndustrialSector,
+  workModality: WorkModality
 }
 
 export interface ContractType {
@@ -45,6 +47,19 @@ export interface ProgressStatus {
   name_progress_status: string,
   description_progress_status: string,
   status: boolean
+}
+
+export interface IndustrialSector {
+  id_industrial_sector: number
+  name_industrial_sector: string,
+  description_industrial_sector: string,
+  status: boolean,
+}
+
+export interface WorkModality {
+  id_work_modality: number
+  name_work_modality: string,
+  status: boolean,
 }
 
 

@@ -6,6 +6,9 @@ public class VacancyWithApplicationDTO {
     private Vacancy vacancy;
     private Long totalApplications;
 
+    public VacancyWithApplicationDTO() {
+    }
+
     public VacancyWithApplicationDTO(Vacancy vacancy, Long totalApplications) {
         this.vacancy = vacancy;
         this.totalApplications = totalApplications;
