@@ -17,3 +17,21 @@ export interface EmailToCandidate {
   bodyEmail: string,
   tokenJWT: string
 }
+
+export interface ApplicationDetailsDTO {
+  idApplication: number;
+  applicationDate: string;
+  notesCandidate: string | null;
+  statusApplication: string;
+  urlCV: string;
+
+  idCandidate: number;
+  nameCandidate: string;
+  surnameCandidate: string;
+  emailCandidate: string;
+  cellphoneCandidate: string;
+  imgProfileCandidate: string | null;
+
+  idVacancy: number;
+  nameVacancy: string;
+}

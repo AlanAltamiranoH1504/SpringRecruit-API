@@ -84,4 +84,11 @@ public class ApplicationController {
                 iResponseService.generate_response(true, "Vacante eliminada correctamente")
         );
     }
+
+    @PostMapping("/applications_details/by/vancancy/{idVacancy}")
+    public ResponseEntity<?> getApplicationsDetailsByIdVacancy(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO, @PathVariable Long idVacancy) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iApplicationService.getApplicationsDetailsByIdVacancy(idVacancy, isJwtValidDTO.getToken())
+        );
+    }
 }

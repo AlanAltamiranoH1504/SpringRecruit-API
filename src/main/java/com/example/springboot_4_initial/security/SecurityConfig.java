@@ -102,7 +102,8 @@ public class SecurityConfig {
                                         "/work_modality/list",
                                         "/application/find_all/by_recruiter",
                                         "/recruiter/send_message_to_candidate",
-                                        "/vacancy/get_vacancy/**"
+                                        "/vacancy/get_vacancy/**",
+                                        "/application/applications_details/by/vancancy/**"
                                 ).hasAnyRole("RECLUTADOR", "ADMINISTRADOR")
 
                                 // ! RUTAS PARA CANDIDATOS AUTENTICADOS

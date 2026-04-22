@@ -1,6 +1,7 @@
 package com.example.springboot_4_initial.services;
 
 import com.example.springboot_4_initial.dto.application.ApplicationByIdRecruiter;
+import com.example.springboot_4_initial.dto.application.ApplicationDetailsDTO;
 import com.example.springboot_4_initial.dto.application.CreateApplicationDTO;
 import com.example.springboot_4_initial.dto.application.UpdateApplicationDTO;
 import com.example.springboot_4_initial.dto.candidate.CandidateByRecruiterVacancy;
@@ -46,7 +47,7 @@ public class ApplicationService implements IApplicationService {
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private IRecruiterService iRecruiterService;
+    private IUserService iUserService;
 
     @Override
     public List<Application> findAllByRecruiter(Long idRecruiter) {
@@ -65,6 +66,21 @@ public class ApplicationService implements IApplicationService {
             throw new ListEmptyException("El candidato no se ha postulado a ninguna vacante");
         }
         return applicationList;
+    }
+
+    @Override
+    public List<ApplicationDetailsDTO> getApplicationsDetailsByIdVacancy(Long idVacancy, String tokenJWT) {
+        User user = iUserService.get_user(jwtService.extract_id_user(tokenJWT));
+        Recruiter recruiter = user.getRecruiter();
+        if (recruiter == null) {
+            throw new NotFoundEntityException("No existe un usuario reclutador con esos datos");
+        }
+
+        List<ApplicationDetailsDTO> aplications = iApplicationRepository.getApplicationsDetailsByIdVacancy(idVacancy, recruiter.getId_recruiter());
+        if (aplications.isEmpty()) {
+            throw new ListEmptyException("La lista de aplicaciones en la vacante se encuentra vacia");
+        }
+        return aplications;
     }
 
     @Override

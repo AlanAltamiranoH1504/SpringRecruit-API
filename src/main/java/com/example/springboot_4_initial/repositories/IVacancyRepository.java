@@ -37,7 +37,7 @@ public interface IVacancyRepository extends JpaRepository<Vacancy, Long>, JpaSpe
             INNER JOIN WorkModality as w ON v.workModality.id_work_modality = w.id_work_modality
             WHERE v.recruiter.id_recruiter = :idRecruiter
             AND v.id_vacancy = :idVacancy
-            GROUP BY v.id_vacancy, a.id_application
+            GROUP BY v.id_vacancy
             """)
     public abstract VacancyWithApplicationDTO getVacancyWithApplications(@Param("idVacancy") Long idVacancy, @Param("idRecruiter") Long idRecruiter);
 }

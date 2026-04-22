@@ -1,6 +1,14 @@
-<div
-  class="flex items-start gap-4 p-4 border rounded-lg hover:bg-gray-50 transition-colors"
->
+@if (applications().length > 0) {
+  <div class="space-y-3 overflow-y-scroll max-h-56 p-3">
+    @for (application of applications(); track application.idApplication) {
+      <div
+        class="flex items-start gap-4 p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+      >
+        <app-candidate-details-component [applicationCandidate]="application"></app-candidate-details-component>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="text-center text-sm font-medium text-gray-500">No existen interesados en esta vacante</div>
+}
 
-
-</div>
