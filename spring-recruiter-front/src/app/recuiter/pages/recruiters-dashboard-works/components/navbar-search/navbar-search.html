@@ -13,53 +13,77 @@
         <path d="m21 21-4.3-4.3"/>
       </svg>
 
-      <input
-        type="text"
-        placeholder="Buscar trabajos..."
-        class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm
+      <form [formGroup]="formByTitle" (ngSubmit)="searchByTitle()">
+        <input
+          type="text"
+          placeholder="Buscar trabajos..."
+          class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm
                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                transition"
-      >
+          formControlName="titleVacancy"
+        >
+
+        @if (formValidatorService.isValidField("titleVacancy", formByTitle)) {
+          <span
+            class="text-sm text-red-500 font-semibold mt-2">{{ formValidatorService.getFieldErros("titleVacancy", formByTitle) }}</span>
+        }
+
+        @if (isErrorMessage()) {
+          <span class="text-sm text-amber-400 font-semibold mt-2">{{ isErrorMessage() }}</span>
+        }
+      </form>
     </div>
 
     <div class="flex flex-wrap gap-4 items-center">
-      <select
-        class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
+      <form [formGroup]="formByFilters" (ngSubmit)="searchByFilters()">
+        <select
+          class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-               cursor-pointer transition">
-        <option value="">Tipo de contrato</option>
-        @for (typeContract of contractTypes(); track typeContract.id_contract_type) {
-          <option [ngValue]="typeContract.id_contract_type">
-            {{ typeContract.name_contract_type }}
-          </option>
-        }
-      </select>
-      <select
-        class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
+               cursor-pointer transition"
+          formControlName="contractType"
+        >
+          <option value="">Tipo de contrato</option>
+          @for (typeContract of contractTypes(); track typeContract.id_contract_type) {
+            <option [ngValue]="typeContract.id_contract_type">
+              {{ typeContract.name_contract_type }}
+            </option>
+          }
+        </select>
+        <select
+          class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-               cursor-pointer transition">
-        <option value="">Sector industrial</option>
-        @for (indusSector of industrialSertors(); track indusSector.id_industrial_sector) {
-          <option [ngValue]="indusSector.id_industrial_sector">
-            {{ indusSector.name_industrial_sector }}
-          </option>
-        }
-      </select>
-      <select
-        class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
+               cursor-pointer transition"
+          formControlName="industrialSector"
+        >
+          <option value="">Sector industrial</option>
+          @for (indusSector of industrialSertors(); track indusSector.id_industrial_sector) {
+            <option [ngValue]="indusSector.id_industrial_sector">
+              {{ indusSector.name_industrial_sector }}
+            </option>
+          }
+        </select>
+        <select
+          class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white min-w-[150px]
                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-               cursor-pointer transition">
-        <option value="">Modalidad</option>
-        @for (wM of workModalities(); track wM.id_work_modality) {
-          <option [ngValue]="wM.id_work_modality">
-            {{ wM.name_work_modality }}
-          </option>
+               cursor-pointer transition"
+          formControlName="workModality"
+        >
+          <option value="">Modalidad</option>
+          @for (wM of workModalities(); track wM.id_work_modality) {
+            <option [ngValue]="wM.id_work_modality">
+              {{ wM.name_work_modality }}
+            </option>
+          }
+        </select>
+        <button
+          class="text-sm text-gray-500 hover:text-blue-500 transition cursor-pointer">
+          Buscar
+        </button>
+
+        @if (isErrorMessageFilters()) {
+          <div class="text-sm text-amber-400 font-medium">{{isErrorMessageFilters()}}</div>
         }
-      </select>
-      <button
-        class="text-sm text-gray-500 hover:text-red-500 transition">
-        Limpiar
-      </button>
+      </form>
     </div>
   </div>
 </div>

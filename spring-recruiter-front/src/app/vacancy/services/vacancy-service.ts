@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {SaveVacancy} from '../types';
 import {environment} from '../../../environments/environment.development';
 import {ResponseListVacanciesByRecruiter, VacanciesByRecruiter} from '../../recuiter/types';
+import {VacanciesByFilters} from '../../recuiter/types/VacanciesByFilters';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,30 @@ export class VacancyService {
 
   public getVacancyWithApplications(idVacancy: number) {
     return this.http.post<ResponseListVacanciesByRecruiter>(`${environment.URL_API_BACKEND}/vacancy/get_vacancy/${idVacancy}`, {token: this.jwtToken}, {
+      headers: {
+        "Authorization": "Bearer " + this.jwtToken
+      }
+    });
+  }
+
+  public searchVacancyByTitle(titleVacancy: string) {
+    return this.http.post<ResponseListVacanciesByRecruiter[]>(`${environment.URL_API_BACKEND}/recruiter/search_vacancies/by_title`, {
+      token: this.jwtToken,
+      titleVacancy: titleVacancy
+    }, {
+      headers: {
+        "Authorization": "Bearer " + this.jwtToken
+      }
+    });
+  }
+
+  public searchVacanciesByFiltersAndRecruiter(request: VacanciesByFilters) {
+    return this.http.post<ResponseListVacanciesByRecruiter[]>(`${environment.URL_API_BACKEND}/vacancy/search_vacancies/by_filter`, {
+      token: this.jwtToken,
+      industriesSector: request.industriesSector,
+      worksModalities: request.worksModalities,
+      contractTypes: request.contractTypes
+    }, {
       headers: {
         "Authorization": "Bearer " + this.jwtToken
       }
