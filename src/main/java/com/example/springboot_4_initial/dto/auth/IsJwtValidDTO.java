@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 import java.util.List;
 
 public class IsJwtValidDTO {
-    @NotBlank(message = "El token jwt es requerido")
+//    @NotBlank(message = "El token jwt es requerido")
     private String token;
 
     List<

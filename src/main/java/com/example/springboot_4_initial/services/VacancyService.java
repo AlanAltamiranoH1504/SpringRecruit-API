@@ -16,6 +16,7 @@ import com.example.springboot_4_initial.security.JwtService;
 import com.example.springboot_4_initial.services.interfaces.ICryptoService;
 import com.example.springboot_4_initial.services.interfaces.IUserService;
 import com.example.springboot_4_initial.services.interfaces.IVacancyService;
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -100,11 +101,21 @@ public class VacancyService implements IVacancyService {
     }
 
     @Override
-    public Vacancy get_vacancy(Long id) {
+    public Vacancy get_vacancy(Long id, String jwString) {
         Optional<Vacancy> vacancy_to_show = iVacancyRepository.findById(id);
         if (!vacancy_to_show.isPresent()) {
             throw new NotFoundVacancy("El registro de la vacante no fue encontrado");
         }
+
+        if (!jwString.isEmpty()) {
+            Long idUser = jwtService.extract_id_user(jwString);
+            User user = iUserService.get_user(idUser);
+
+            if (!vacancy_to_show.get().getRecruiter().getId_recruiter().equals(user.getRecruiter().getId_recruiter())) {
+                throw new NotFoundVacancy("No se tiene permisos para consultar datos de vacantes");
+            }
+        }
+
         if (vacancy_to_show.get().getImage() != null) {
             vacancy_to_show.get().setImage(vacancy_to_show.get().getImage().replace("\\", "/"));
         } else {

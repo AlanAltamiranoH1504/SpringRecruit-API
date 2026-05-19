@@ -46,9 +46,9 @@ public class VacancyController {
         return ResponseEntity.status(HttpStatus.CREATED).body(iResponseService.generate_response(true, "Vacante guarda correctamente"));
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<?> find_vacancy(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.get_vacancy(id));
+    @PostMapping("/find/{id}")
+    public ResponseEntity<?> find_vacancy(@Valid @RequestBody IsJwtValidDTO isJwtValidDTO, @PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.get_vacancy(id, isJwtValidDTO.getToken()));
     }
 
     @PostMapping("/get_vacancy/{idVacancy}")
