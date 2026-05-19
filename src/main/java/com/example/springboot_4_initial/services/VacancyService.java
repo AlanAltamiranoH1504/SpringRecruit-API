@@ -192,4 +192,26 @@ public class VacancyService implements IVacancyService {
         }
         return true;
     }
+
+    @Override
+    public List<VacancyWithApplicationDTO> searchVacanciesByFiltersAndRecruiter(SearchByFilterAndRecruiter searchByFilterAndRecruiter) {
+        // * GET ID RECRUITER
+        Long idUser = jwtService.extract_id_user(searchByFilterAndRecruiter.getToken());
+        User user = iUserService.get_user(idUser);
+        Long idRecruiter = user.getRecruiter().getId_recruiter();
+
+        Specification<Vacancy> spec = VacancySepecificationsByRecruiter.buildQuery(searchByFilterAndRecruiter);
+        return iVacancyRepository.findAll(spec)
+                .stream()
+                .filter(vacancy -> {
+                    return vacancy.getRecruiter().getId_recruiter().equals(idRecruiter);
+                })
+                .map(vacancy -> {
+                    VacancyWithApplicationDTO dto = new VacancyWithApplicationDTO();
+                    dto.setVacancy(vacancy);
+                    dto.setTotalApplications((long) vacancy.applications.size());
+                    return dto;
+                })
+                .toList();
+    }
 }

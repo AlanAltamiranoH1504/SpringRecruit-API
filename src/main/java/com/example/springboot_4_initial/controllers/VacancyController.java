@@ -111,6 +111,13 @@ public class VacancyController {
         return ResponseEntity.status(HttpStatus.OK).body(iVacancyService.search_vacancies(vacancyFilterDTO));
     }
 
+    @PostMapping("/search_vacancies/by_filter")
+    public ResponseEntity<?> searchVacanciesByFilterAndRecruiter(@Valid @RequestBody SearchByFilterAndRecruiter searchByFilterAndRecruiter) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iVacancyService.searchVacanciesByFiltersAndRecruiter(searchByFilterAndRecruiter)
+        );
+    }
+
     @PostMapping("/save_vacancies")
     public ResponseEntity<?> save_vacancies(@Valid @RequestBody SaveVacanciesDTO saveVacanciesDTO) {
         iVacancyService.save_vacancies(saveVacanciesDTO);

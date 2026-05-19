@@ -3,6 +3,7 @@ package com.example.springboot_4_initial.services;
 import com.example.springboot_4_initial.dto.recruiter.RecruiterInSessionDTO;
 import com.example.springboot_4_initial.dto.recruiter.SendMailToCandidateDTO;
 import com.example.springboot_4_initial.dto.recruiter.UpdateRecruiterDTO;
+import com.example.springboot_4_initial.dto.vancacy.VacancyWithApplicationDTO;
 import com.example.springboot_4_initial.exceptions.CreatedEntityException;
 import com.example.springboot_4_initial.exceptions.ListEmptyException;
 import com.example.springboot_4_initial.exceptions.NotFoundEntity;
@@ -13,6 +14,7 @@ import com.example.springboot_4_initial.models.Recruiter;
 import com.example.springboot_4_initial.models.User;
 import com.example.springboot_4_initial.repositories.IRecruiterRepository;
 import com.example.springboot_4_initial.repositories.IUserRepository;
+import com.example.springboot_4_initial.repositories.IVacancyRepository;
 import com.example.springboot_4_initial.security.JwtService;
 import com.example.springboot_4_initial.services.interfaces.IMailService;
 import com.example.springboot_4_initial.services.interfaces.IRecruiterService;
@@ -36,6 +38,8 @@ public class RecruiterService implements IRecruiterService {
     private JwtService jwtService;
     @Autowired
     private IMailService iMailService;
+    @Autowired
+    private IVacancyRepository iVacancyRepository;
 
     @Override
     public List<Recruiter> list_recruiters(boolean Status) {
@@ -175,5 +179,19 @@ public class RecruiterService implements IRecruiterService {
                 sendMailToCandidateDTO.getBodyEmail()
         );
         return true;
+    }
+
+    @Override
+    public List<VacancyWithApplicationDTO> searchVacaciesByTitle(String titleToSearch, String tokenJWT) {
+        Long idUser = jwtService.extract_id_user(tokenJWT);
+        User user = this.iUserService.get_user(idUser);
+        Long idRecuiter = user.getRecruiter().getId_recruiter();
+
+        List<VacancyWithApplicationDTO> vacanciesByTitle = iVacancyRepository.getVacanciesByTitle(titleToSearch, idRecuiter);
+        if (vacanciesByTitle.isEmpty()) {
+            throw new ListEmptyException("La lista de vacantes se encuentra vacia");
+        }
+
+        return vacanciesByTitle;
     }
 }

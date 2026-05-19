@@ -17,4 +17,5 @@ public interface IVacancyService {
     public abstract List<Vacancy> list_vacancies_by_name(String name);
     public abstract List<VacancyWithApplicationDTO> search_vacancies(VacancyFilterDTO vacancyFilterDTO);
     public abstract boolean save_vacancies(SaveVacanciesDTO saveVacanciesDTO);
+    public abstract List<VacancyWithApplicationDTO> searchVacanciesByFiltersAndRecruiter(SearchByFilterAndRecruiter searchByFilterAndRecruiter);
 }

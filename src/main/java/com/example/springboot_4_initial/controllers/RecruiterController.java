@@ -3,6 +3,7 @@ package com.example.springboot_4_initial.controllers;
 import com.example.springboot_4_initial.dto.ListEntityDTO;
 import com.example.springboot_4_initial.dto.ShowEntityDTO;
 import com.example.springboot_4_initial.dto.auth.IsJwtValidDTO;
+import com.example.springboot_4_initial.dto.recruiter.ListVacanciesByTitle;
 import com.example.springboot_4_initial.dto.recruiter.SendMailToCandidateDTO;
 import com.example.springboot_4_initial.dto.recruiter.UpdateRecruiterDTO;
 import com.example.springboot_4_initial.services.interfaces.ICryptoService;
@@ -68,6 +69,13 @@ public class RecruiterController {
         iRecruiterService.sendMailToCandidate(sendMailToCandidateDTO);
         return ResponseEntity.status(HttpStatus.OK).body(
                 iResponseService.generate_response(true, "Mensaje enviado a candidato")
+        );
+    }
+
+    @PostMapping("/search_vacancies/by_title")
+    public ResponseEntity<?> searchVacnciesByTitle(@Valid @RequestBody ListVacanciesByTitle listVacanciesByTitle) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                iRecruiterService.searchVacaciesByTitle(listVacanciesByTitle.getTitleVacancy(), listVacanciesByTitle.getToken())
         );
     }
 }

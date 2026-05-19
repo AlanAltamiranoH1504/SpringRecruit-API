@@ -40,4 +40,14 @@ public interface IVacancyRepository extends JpaRepository<Vacancy, Long>, JpaSpe
             GROUP BY v.id_vacancy
             """)
     public abstract VacancyWithApplicationDTO getVacancyWithApplications(@Param("idVacancy") Long idVacancy, @Param("idRecruiter") Long idRecruiter);
+
+    @Query("""
+        SELECT new com.example.springboot_4_initial.dto.vancacy.VacancyWithApplicationDTO(v, COUNT(a))
+        FROM Vacancy v
+        LEFT JOIN Application a ON a.vacancy.id_vacancy = v.id_vacancy
+        INNER JOIN WorkModality  as w ON v.workModality.id_work_modality = w.id_work_modality
+        WHERE v.recruiter.id_recruiter = :idRecruiter AND v.name LIKE LOWER(CONCAT('%', :titleVacancy, '%'))
+        GROUP BY v.id_vacancy
+    """)
+    public abstract List<VacancyWithApplicationDTO> getVacanciesByTitle(@Param("titleVacancy") String titleVacancy, @Param("idRecruiter") Long idRecruiter);
 }

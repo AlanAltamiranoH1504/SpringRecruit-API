@@ -3,7 +3,9 @@ package com.example.springboot_4_initial.services.interfaces;
 import com.example.springboot_4_initial.dto.recruiter.RecruiterInSessionDTO;
 import com.example.springboot_4_initial.dto.recruiter.SendMailToCandidateDTO;
 import com.example.springboot_4_initial.dto.recruiter.UpdateRecruiterDTO;
+import com.example.springboot_4_initial.dto.vancacy.VacancyWithApplicationDTO;
 import com.example.springboot_4_initial.models.Recruiter;
+import com.example.springboot_4_initial.models.Vacancy;
 
 import java.util.List;
 
@@ -19,4 +21,5 @@ public interface IRecruiterService {
     public abstract RecruiterInSessionDTO recruiterInSession(String tokenJWT);
     public abstract boolean confirm_account(String token_confirm_account, String randome_number);
     public abstract boolean sendMailToCandidate(SendMailToCandidateDTO sendMailToCandidateDTO);
+    public abstract List<VacancyWithApplicationDTO> searchVacaciesByTitle(String titleToSearch, String tokenJWT);
 }
