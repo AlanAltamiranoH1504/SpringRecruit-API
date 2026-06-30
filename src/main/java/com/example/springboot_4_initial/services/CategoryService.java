@@ -1,96 +1,96 @@
 package com.example.springboot_4_initial.services;
 
-import com.example.springboot_4_initial.dto.CreateCategoryDTO;
-import com.example.springboot_4_initial.exceptions.categories.CreatedCategory;
-import com.example.springboot_4_initial.exceptions.categories.NameCategoryError;
-import com.example.springboot_4_initial.exceptions.categories.NotFoundCategories;
-import com.example.springboot_4_initial.exceptions.categories.NotFoundCategory;
+import com.example.springboot_4_initial.dto.categories.RequestCategoryDTO;
+import com.example.springboot_4_initial.dto.categories.RequestUpdateCategoryDTO;
+import com.example.springboot_4_initial.dto.categories.ResponseCategoryDTO;
+import com.example.springboot_4_initial.exceptions.CreatedEntityException;
+import com.example.springboot_4_initial.exceptions.ListEmptyException;
+import com.example.springboot_4_initial.exceptions.NotFoundEntity;
+import com.example.springboot_4_initial.exceptions.UpdateException;
 import com.example.springboot_4_initial.models.Category;
 import com.example.springboot_4_initial.repositories.ICategoryRepository;
 import com.example.springboot_4_initial.services.interfaces.ICategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
-    @Autowired
-    ICategoryRepository iCategoryRepository;
+    private final ICategoryRepository iCategoryRepository;
 
     @Override
-    public List<Category> list_categories() {
-        List<Category> list_categories = iCategoryRepository.findAll();
-        if (list_categories.isEmpty()) {
-            throw new NotFoundCategories("No existen categorias registradas en la base de datos");
+    public List<ResponseCategoryDTO> findAllCategories(boolean status) {
+        List<Category> categories = iCategoryRepository.findCategoriesByStatus(status);
+        if (categories.isEmpty()) {
+            throw new ListEmptyException("Empty category list");
         }
-        return list_categories;
+        return categories
+                .stream()
+                .map(category -> {
+                    return ResponseCategoryDTO.builder()
+                            .idCategory(category.getId())
+                            .name(category.getName())
+                            .description(category.getDescription())
+                            .status(category.isStatus())
+                            .build();
+                }).toList();
     }
 
     @Override
-    public Category get_category(Long id) {
-        Optional<Category> category_to_show = iCategoryRepository.findById(id);
-        if (category_to_show.isEmpty()) {
-            throw new NotFoundCategory("La categoria no se encuentra registrada");
+    public ResponseCategoryDTO findCategoryById(Long idCategory) {
+        Category category = iCategoryRepository.findById(idCategory)
+                .orElseThrow(() -> new NotFoundEntity("Category not found"));
+        return ResponseCategoryDTO.builder()
+                .idCategory(category.getId())
+                .name(category.getName())
+                .description(category.getDescription())
+                .status(category.isStatus())
+                .build();
+    }
+
+    @Override
+    public ResponseCategoryDTO saveCategory(RequestCategoryDTO requestCategoryDTO) {
+        Category categoryToSave = Category.builder()
+                .name(requestCategoryDTO.getName())
+                .description(requestCategoryDTO.getDescription())
+                .status(true)
+                .build();
+        iCategoryRepository.save(categoryToSave);
+        if (categoryToSave.getId() == null) {
+            throw new CreatedEntityException("Error creating category");
         }
-        return category_to_show.get();
+        return ResponseCategoryDTO.builder()
+                .idCategory(categoryToSave.getId())
+                .name(categoryToSave.getName())
+                .description(categoryToSave.getDescription())
+                .status(categoryToSave.isStatus())
+                .build();
     }
 
     @Override
-    public Category save_category(Category category) {
-        Category name_in_use = iCategoryRepository.name_in_use(category.getName());
-        if (name_in_use != null && category.getId() != name_in_use.getId()) {
-            throw new NameCategoryError("El nombre de la categoria ya se encuentra en uso");
+    public ResponseCategoryDTO updateCategory(Long idCategory, RequestUpdateCategoryDTO requestUpdateCategoryDTO) {
+        Category categoryToUpdate = iCategoryRepository.findById(idCategory)
+                .orElseThrow(() -> new NotFoundEntity("Not Found Category"));
+        Optional<Category> categoryByNameRequest = iCategoryRepository.findByName(requestUpdateCategoryDTO.getName());
+        if (categoryByNameRequest.isPresent() && !categoryByNameRequest.get().getId().equals(categoryToUpdate.getId())) {
+            throw new UpdateException("Name category already exists");
         }
-
-        Category category_to_save = iCategoryRepository.save(category);
-        if (category_to_save.getId() != null) {
-            return category_to_save;
-        }
-        throw new CreatedCategory("Ocurrio un error en la creacion de la categoria dentro de la base datos");
+        BeanUtils.copyProperties(requestUpdateCategoryDTO, categoryToUpdate);
+        iCategoryRepository.save(categoryToUpdate);
+        return ResponseCategoryDTO.builder()
+                .idCategory(categoryToUpdate.getId())
+                .name(categoryToUpdate.getName())
+                .description(categoryToUpdate.getDescription())
+                .status(categoryToUpdate.isStatus())
+                .build();
     }
 
     @Override
-    public boolean delete_category(Long id) {
-        Category category_to_delete = this.get_category(id);
-        category_to_delete.setStatus(false);
-        iCategoryRepository.save(category_to_delete);
-        return true;
-    }
+    public void deleteCategoryById(Long idCategory) {
 
-    @Override
-    public int count_category() {
-        return iCategoryRepository.count_categories();
-    }
-
-    @Override
-    public void delete_all_soft() {
-        iCategoryRepository.delete_all_soft();;
-    }
-
-    @Override
-    public boolean exists_category(Long id) {
-        return iCategoryRepository.existsById(id);
-    }
-
-    @Override
-    public List<Category> find_all_by_id(List<Long> ids) {
-        List<Category> list_category_by_id = (List<Category>) iCategoryRepository.findAllById(ids);
-        if (list_category_by_id.isEmpty()) {
-            throw new NotFoundCategories("No existen esas categorias regsitradas en la base de datos");
-        }
-        return list_category_by_id;
-    }
-
-    @Override
-    public boolean create_categories(List<Category> categories) {
-        iCategoryRepository.saveAll(categories);
-        return true;
-    }
-
-    @Override
-    public void delete_all_in_batch(List<Long> id) {
-        iCategoryRepository.deleteAllByIdInBatch(id);
     }
 }

@@ -64,14 +64,6 @@ public class CreateVacancyDTO {
     @Range(min = 1, message = "Categoria no valida")
     private Long idCategory;
 
-//    public String getId_user_crypt() {
-//        return id_user_crypt;
-//    }
-//
-//    public void setId_user_crypt(String id_user_crypt) {
-//        this.id_user_crypt = id_user_crypt;
-//    }
-
 
     public String getJwt() {
         return jwt;
