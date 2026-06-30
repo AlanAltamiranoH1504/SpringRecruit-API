@@ -1,0 +1,130 @@
+<h2 mat-dialog-title>Edita la publicación de tu trabajo</h2>
+
+<mat-dialog-content>
+  <p class="text-gray-700 text-sm mb-3">
+    Completa la información para crear una nueva oferta de trabajo
+  </p>
+  <div class="overflow-y-scroll min-h-96 p-3">
+    <form class="space-y-2" [formGroup]="formUpdateVacancy" (ngSubmit)="onSubmit()">
+      <div>
+        <label class="font-semibold mt-3">
+          Título del puesto <span class="text-red-600">*</span>
+        </label>
+        <input formControlName="name" type="text" placeholder="Nombre del puesto" class="border p-2 w-full mt-1 rounded-lg">
+        @if (formValidatorService.isValidField("name", formUpdateVacancy)) {
+          <span class="text-sm text-red-500">{{ formValidatorService.getFieldErros("name", formUpdateVacancy) }}</span>
+        }
+      </div>
+      <div>
+        <label class="font-semibold">Descripción del puesto</label>
+        <textarea formControlName="description" class="border p-2 w-full mt-1 rounded-lg" placeholder="Descripción del puesto"
+                  [rows]="5"></textarea>
+        @if (formValidatorService.isValidField("description", formUpdateVacancy)) {
+          <span
+            class="text-sm text-red-500">{{ formValidatorService.getFieldErros("description", formUpdateVacancy) }}</span>
+        }
+      </div>
+      <div>
+        <label class="font-semibold">Localización del puesto</label>
+        <input formControlName="location" type="text" placeholder="CDMX, GDL, QRO" class="border p-2 w-full mt-1 rounded-lg">
+        @if (formValidatorService.isValidField("location", formUpdateVacancy)) {
+          <span
+            class="text-sm text-red-500">{{ formValidatorService.getFieldErros("location", formUpdateVacancy) }}</span>
+        }
+      </div>
+      <div>
+        <label class="font-semibold">Salario</label>
+        <input formControlName="salary" type="text" placeholder="Pesos Méxicanos" class="border p-2 w-full mt-1 rounded-lg">
+        @if (formValidatorService.isValidField("salary", formUpdateVacancy)) {
+          <span class="text-sm text-red-500">{{ formValidatorService.getFieldErros("salary", formUpdateVacancy) }}</span>
+        }
+      </div>
+      <div>
+        <label class="font-semibold">Fecha de Termino</label>
+        <input formControlName="finish_date" type="date" class="border p-2 w-full mt-1 rounded-lg">
+        @if (formValidatorService.isValidField("finish_date", formUpdateVacancy)) {
+          <span
+            class="text-sm text-red-500">{{ formValidatorService.getFieldErros("finish_date", formUpdateVacancy) }}</span>
+        }
+      </div>
+      <div>
+        <label class="font-semibold">Requrimientos</label>
+        <textarea formControlName="requirements" class="border p-2 w-full mt-1 rounded-lg"
+                  placeholder="Lista los requerimientos por un punto final" [rows]="5"></textarea>
+        @if (formValidatorService.isValidField("requirements", formUpdateVacancy)) {
+          <span
+            class="text-sm text-red-500">{{ formValidatorService.getFieldErros("requirements", formUpdateVacancy) }}</span>
+        }
+      </div>
+      <div>
+        <label class="font-semibold">Responsabilidades</label>
+        <textarea formControlName="responsibilities" class="border p-2 w-full mt-1 rounded-lg"
+                  placeholder="Lista las responsabilidades por un punto final" [rows]="5"></textarea>
+        @if (formValidatorService.isValidField("responsibilities", formUpdateVacancy)) {
+          <span
+            class="text-sm text-red-500">{{ formValidatorService.getFieldErros("responsibilities", formUpdateVacancy) }}</span>
+        }
+      </div>
+      <div>
+        <label class="font-semibold">Tipo de Contrato</label>
+        <select formControlName="idContract_type" class="border p-2 w-full mt-1 rounded-lg">
+          <option>--- Selecciona una opción ---</option>
+          @for (ct of contractTypes(); track ct.id_contract_type) {
+            <option value="{{ct.id_contract_type}}">{{ ct.name_contract_type }}</option>
+          }
+        </select>
+        @if (formValidatorService.isValidField("idContract_type", formUpdateVacancy)) {
+          <span
+            class="text-sm text-red-500">{{ formValidatorService.getFieldErros("idContract_type", formUpdateVacancy) }}</span>
+        }
+      </div>
+
+      <div>
+        <label class="font-semibold">Sector Industrial</label>
+        <select formControlName="idIndustrialSector" class="border p-2 w-full mt-1 rounded-lg">
+          <option>--- Selecciona una opción ---</option>
+          @for (iS of industrialSectors(); track iS.id_industrial_sector) {
+            <option value="{{iS.id_industrial_sector}}">{{ iS.name_industrial_sector }}</option>
+          }
+        </select>
+        @if (formValidatorService.isValidField("idIndustrialSector", formUpdateVacancy)) {
+          <span
+            class="text-sm text-red-500">{{ formValidatorService.getFieldErros("idIndustrialSector", formUpdateVacancy) }}</span>
+        }
+      </div>
+
+      <div>
+        <label class="font-semibold">Modalidad de Trabajo</label>
+        <select formControlName="idWorkModality" class="border p-2 w-full mt-1 rounded-lg">
+          <option>--- Selecciona una opción ---</option>
+          @for (wm of worksModality(); track wm.id_work_modality) {
+            <option value="{{wm.id_work_modality}}">{{ wm.name_work_modality }}</option>
+          }
+        </select>
+        @if (formValidatorService.isValidField("idWorkModality", formUpdateVacancy)) {
+          <span
+            class="text-sm text-red-500">{{ formValidatorService.getFieldErros("idWorkModality", formUpdateVacancy) }}</span>
+        }
+      </div>
+
+      <div>
+        <mat-dialog-actions align="end">
+          <button type="submit" mat-button>Guardar</button>
+          <button mat-button (click)="close()">Cerrar</button>
+        </mat-dialog-actions>
+      </div>
+    </form>
+
+    <div class="flex items-center justify-center">
+      @if (isError() !== null) {
+        <span
+          class="text-center px-3 py-2 rounded-lg font-semibold w-full border bg-red-100 border-red-600 text-red-600">{{ isError() }}</span>
+      } @else if (isSuccess() !== null) {
+        <span
+          class="text-center px-3 py-2 rounded-lg font-semibold w-full border bg-blue-100 border-blue-600 text-blue-600">{{ isSuccess() }}</span>
+      }
+    </div>
+  </div>
+</mat-dialog-content>
+
+

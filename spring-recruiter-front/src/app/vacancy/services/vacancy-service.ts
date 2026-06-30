@@ -1,6 +1,6 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {SaveVacancy} from '../types';
+import {SaveVacancy, Vacancy} from '../types';
 import {environment} from '../../../environments/environment.development';
 import {ResponseListVacanciesByRecruiter, VacanciesByRecruiter} from '../../recuiter/types';
 import {VacanciesByFilters} from '../../recuiter/types/VacanciesByFilters';
@@ -59,6 +59,14 @@ export class VacancyService {
       headers: {
         "Authorization": "Bearer " + this.jwtToken
       }
+    });
+  }
+
+  public searchVacancyById(idVacancy: number) {
+    return this.http.post<Vacancy>(`${environment.URL_API_BACKEND}/vacancy/find/${idVacancy}`, {
+      token: this.jwtToken,
+    }, {
+      headers: {}
     });
   }
 
