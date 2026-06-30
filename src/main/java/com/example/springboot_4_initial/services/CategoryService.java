@@ -91,6 +91,24 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public void deleteCategoryById(Long idCategory) {
+        Category categoryToDelete = iCategoryRepository.findById(idCategory)
+                .orElseThrow(() -> new NotFoundEntity("Category not found with id: " + idCategory));
+        categoryToDelete.setStatus(false);
+        iCategoryRepository.save(categoryToDelete);
+    }
 
+    @Override
+    public void destroyCategory(Long idCategory) {
+        Category categoryToDelete = iCategoryRepository.findById(idCategory)
+                .orElseThrow(() -> new NotFoundEntity("Category not found with id: " + idCategory));
+        iCategoryRepository.delete(categoryToDelete);
+    }
+
+    @Override
+    public void changeStatusCategory(Long idCategory) {
+        Category categoryToChange = iCategoryRepository.findById(idCategory)
+                .orElseThrow(() -> new NotFoundEntity("Category not found with id: " + idCategory));
+        categoryToChange.setStatus(!categoryToChange.isStatus());
+        iCategoryRepository.save(categoryToChange);
     }
 }

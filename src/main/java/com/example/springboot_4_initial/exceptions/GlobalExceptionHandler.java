@@ -54,4 +54,11 @@ public class GlobalExceptionHandler {
                 iExceptionService.generateMessage(false, ex.getMessage())
         );
     }
+
+    @ExceptionHandler(CreatedEntityException.class)
+    public ResponseEntity<?> handleCreatedEntityException(CreatedEntityException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                iExceptionService.generateMessage(false, ex.getMessage())
+        );
+    }
 }

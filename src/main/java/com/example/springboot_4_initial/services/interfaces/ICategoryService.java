@@ -12,4 +12,6 @@ public interface ICategoryService {
     public abstract ResponseCategoryDTO saveCategory(RequestCategoryDTO requestCategoryDTO);
     public abstract ResponseCategoryDTO updateCategory(Long idCategory, RequestUpdateCategoryDTO requestUpdateCategoryDTO);
     public abstract void deleteCategoryById(Long idCategory);
+    public abstract void destroyCategory(Long idCategory);
+    public abstract void changeStatusCategory(Long idCategory);
 }

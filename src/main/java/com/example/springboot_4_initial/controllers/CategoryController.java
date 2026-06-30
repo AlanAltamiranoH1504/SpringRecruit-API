@@ -44,4 +44,16 @@ public class CategoryController {
         iCategoryService.deleteCategoryById(idCategory);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @PatchMapping("/change/{idCategory}")
+    public ResponseEntity<?> changeStatusCategory(@PathVariable Long idCategory) {
+        iCategoryService.changeStatusCategory(idCategory);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping("/destroy/{idCategory}")
+    public ResponseEntity<?> destroyCategory(@PathVariable Long idCategory) {
+        iCategoryService.destroyCategory(idCategory);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
