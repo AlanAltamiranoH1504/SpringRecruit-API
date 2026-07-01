@@ -1,6 +1,7 @@
 package com.example.springboot_4_initial.models;
 
 
+import com.example.springboot_4_initial.models.users.Recruiter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
@@ -8,7 +9,6 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity()

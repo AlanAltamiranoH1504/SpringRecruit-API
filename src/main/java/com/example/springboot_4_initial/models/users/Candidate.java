@@ -1,4 +1,4 @@
-package com.example.springboot_4_initial.models;
+package com.example.springboot_4_initial.models.users;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;

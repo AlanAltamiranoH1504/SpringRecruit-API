@@ -1,5 +1,6 @@
 package com.example.springboot_4_initial.models;
 
+import com.example.springboot_4_initial.models.users.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
